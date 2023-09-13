@@ -6,23 +6,15 @@ import org.bukkit.entity.LivingEntity;
 
 public class LevelledMobsHook implements Levelled {
 
-    private static final LevelledMobs levelledMobs = Bukkit.getPluginManager().isPluginEnabled("LevelledMobs") ?
-            (LevelledMobs) Bukkit.getPluginManager().getPlugin("LevelledMobs") : null;
+    private final LevelledMobs levelledMobs;
 
-    /**
-     * Returns if the plugin is enabled.
-     */
-    public boolean isEnabled() {
-        return levelledMobs != null;
+    public LevelledMobsHook() {
+        levelledMobs = isEnabled() ? (LevelledMobs) Bukkit.getPluginManager().getPlugin("LevelledMobs") : null;
     }
 
-    /**
-     * Returns if the entity is a custom entity.
-     * This also checks if the entity is a levelled entity. Removing the need for a isLevelled() method.
-     */
-    public boolean isLevelledMob(LivingEntity entity) {
-        if(levelledMobs == null) return false;
-        return levelledMobs.levelManager.isLevelled(entity);
+    @Override
+    public String getName() {
+        return "LevelledMobs";
     }
 
     @Override
@@ -31,12 +23,9 @@ public class LevelledMobsHook implements Levelled {
         return levelledMobs.levelManager.isLevelled(entity);
     }
 
-    /**
-     * Returns the level of the LevelledMob.
-     */
     @Override
     public double getLevel(LivingEntity entity) {
-        if(levelledMobs == null) return 1;
+        if(!hasLevel(entity)) return 1;
         return levelledMobs.levelManager.getLevelOfMob(entity);
     }
 

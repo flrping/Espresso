@@ -10,8 +10,8 @@ import org.bukkit.plugin.Plugin;
 public class WildStackerStackerProvider implements StackerProvider {
 
     @Override
-    public boolean isEnabled() {
-        return Bukkit.getPluginManager().isPluginEnabled("WildStacker");
+    public String getName() {
+        return "WildStacker";
     }
 
     @Override
@@ -21,6 +21,7 @@ public class WildStackerStackerProvider implements StackerProvider {
 
     @Override
     public int getStackSize(LivingEntity entity) {
+        if(!this.isEnabled()) return 1;
         if(WildStackerAPI.getStackedEntity(entity) == null) return 1;
         return WildStackerAPI.getEntityAmount(entity);
     }

@@ -5,20 +5,24 @@ import io.lumine.mythic.bukkit.MythicBukkit;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 
+import javax.annotation.Nullable;
+
 public class MythicMobsEntityProvider implements EntityProvider, Levelled {
 
-    private final MythicBukkit mythicMobs = Bukkit.getPluginManager().isPluginEnabled("MythicMobs") ?
-            (MythicBukkit) Bukkit.getPluginManager().getPlugin("MythicMobs") : null;
+    private final MythicBukkit mythicMobs;
 
-    @Override
-    public boolean isEnabled() {
-        return mythicMobs != null;
+    public MythicMobsEntityProvider() {
+        mythicMobs = isEnabled() ? (MythicBukkit) Bukkit.getPluginManager().getPlugin("MythicMobs") : null;
     }
 
     @Override
+    public String getName() {
+        return "MythicMobs";
+    }
+
+    @Override @Nullable
     public String getCustomEntityName(LivingEntity entity) {
-        if(mythicMobs == null) return null;
-        if(mythicMobs.getMobManager().getActiveMob(entity.getUniqueId()).isPresent()) return null;
+        if(!isCustomEntity(entity)) return null;
         return mythicMobs.getMobManager().getActiveMob(entity.getUniqueId()).get().getType().getInternalName();
     }
 
@@ -30,17 +34,14 @@ public class MythicMobsEntityProvider implements EntityProvider, Levelled {
 
     @Override
     public boolean hasLevel(LivingEntity entity) {
-        if(mythicMobs == null) return false;
-        if(mythicMobs.getMobManager().getActiveMob(entity.getUniqueId()).isPresent()) return false;
+        if(!isCustomEntity(entity)) return false;
         return mythicMobs.getMobManager().getActiveMob(entity.getUniqueId()).get().getLevel() > 0;
     }
 
     @Override
     public double getLevel(LivingEntity entity) {
-        if(mythicMobs == null) return 0;
+        if(!isCustomEntity(entity)) return 0;
         return mythicMobs.getMobManager().getActiveMob(entity.getUniqueId()).get().getLevel();
     }
-
-
 
 }

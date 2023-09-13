@@ -1,21 +1,18 @@
 package dev.flrp.espresso.hooks.stacker;
 
+import dev.flrp.espresso.hooks.Hook;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
-public interface StackerProvider {
-
-    /**
-     * Check if the stacker hook is enabled.
-     *
-     * @return true if the hook is enabled.
-     */
-    boolean isEnabled();
+public interface StackerProvider extends Hook {
 
     /**
      * Register the events for the stacker hook.
+     *
+     * @param listener The listener to register.
+     * @param plugin The plugin to register the listener for.
      */
     default void registerEvents(Listener listener, Plugin plugin) {
         Bukkit.getPluginManager().registerEvents(listener, plugin);
@@ -23,6 +20,9 @@ public interface StackerProvider {
 
     /**
      * Unregister the events for the stacker hook.
+     *
+     * @param listener The listener to unregister.
+     * @param plugin The plugin to unregister the listener for.
      */
     void unregisterEvents(Listener listener, Plugin plugin);
 
@@ -33,6 +33,5 @@ public interface StackerProvider {
      * @return the size of the stack.
      */
     int getStackSize(LivingEntity entity);
-
 
 }

@@ -1,23 +1,26 @@
 package dev.flrp.espresso.hooks.item;
 
 import net.Indyuce.mmoitems.MMOItems;
-import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nullable;
 
 public class MMOItemsItemProvider implements ItemProvider {
 
     @Override
-    public boolean isEnabled() {
-        return Bukkit.getPluginManager().isPluginEnabled("MMOItems");
+    public String getName() {
+        return "MMOItems";
     }
 
-    @Override
+    @Override @Nullable
     public String getCustomItemName(ItemStack item) {
+        if(!isCustomItem(item)) return null;
         return MMOItems.getTypeName(item);
     }
 
     @Override
     public boolean isCustomItem(ItemStack item) {
+        if(!isEnabled()) return false;
         return MMOItems.getType(item) != null;
     }
 

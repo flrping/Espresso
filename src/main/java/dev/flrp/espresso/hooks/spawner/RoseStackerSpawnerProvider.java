@@ -1,7 +1,6 @@
 package dev.flrp.espresso.hooks.spawner;
 
 import dev.rosewood.rosestacker.api.RoseStackerAPI;
-import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 
@@ -9,20 +8,25 @@ import javax.annotation.Nullable;
 
 public class RoseStackerSpawnerProvider implements SpawnerProvider {
 
-    private final RoseStackerAPI roseStackerAPI = RoseStackerAPI.getInstance();
+    private final RoseStackerAPI roseStackerAPI;
+
+    public RoseStackerSpawnerProvider() {
+        roseStackerAPI = isEnabled() ? RoseStackerAPI.getInstance() : null;
+    }
 
     @Override
-    public boolean isEnabled() {
-        return Bukkit.getPluginManager().isPluginEnabled("RoseStacker");
+    public String getName() {
+        return "RoseStacker";
     }
 
     @Override
     public boolean isSpawner(Block block) {
+        if(roseStackerAPI == null) return false;
         return roseStackerAPI.isSpawnerStacked(block);
     }
 
     @Override @Nullable
-    public EntityType getSpawnerType(Block block) {
+    public EntityType getSpawnerEntityType(Block block) {
         if(!isSpawner(block)) return null;
         return roseStackerAPI.getStackedSpawner(block).getSpawner().getSpawnedType();
     }

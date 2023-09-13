@@ -2,30 +2,28 @@ package dev.flrp.espresso.hooks.entity.custom;
 
 import dev.flrp.espresso.utils.StringUtils;
 import dev.lone.itemsadder.api.CustomEntity;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
+
+import javax.annotation.Nullable;
 
 public class ItemsAdderEntityProvider implements EntityProvider {
 
-    private final boolean enabled = Bukkit.getPluginManager().isPluginEnabled("ItemsAdder");
-
     @Override
-    public boolean isEnabled() {
-        return enabled;
+    public String getName() {
+        return "ItemsAdder";
     }
 
-    @Override
+    @Override @Nullable
     public String getCustomEntityName(LivingEntity entity) {
+        if(!isCustomEntity(entity)) return null;
         CustomEntity customEntity = CustomEntity.byAlreadySpawned(entity);
-        return customEntity != null ? StringUtils.getItemsAdderName(customEntity.getNamespacedID()) : null;
+        return StringUtils.getItemsAdderName(customEntity.getNamespacedID());
     }
 
     @Override
     public boolean isCustomEntity(LivingEntity entity) {
-        if(!enabled) return false;
+        if(!isEnabled()) return false;
         return CustomEntity.isCustomEntity(entity);
     }
-
-
 
 }

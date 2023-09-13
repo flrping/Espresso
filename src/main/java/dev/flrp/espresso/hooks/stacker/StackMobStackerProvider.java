@@ -9,11 +9,15 @@ import uk.antiperson.stackmob.events.StackDeathEvent;
 
 public class StackMobStackerProvider implements StackerProvider {
 
-    private final StackMob stackMob = (StackMob) Bukkit.getPluginManager().getPlugin("StackMob");
+    private final StackMob stackMob;
+
+    public StackMobStackerProvider() {
+        stackMob = isEnabled() ? (StackMob) Bukkit.getPluginManager().getPlugin("StackMob") : null;
+    }
 
     @Override
-    public boolean isEnabled() {
-        return Bukkit.getPluginManager().isPluginEnabled("StackMob");
+    public String getName() {
+        return "StackMob";
     }
 
     @Override

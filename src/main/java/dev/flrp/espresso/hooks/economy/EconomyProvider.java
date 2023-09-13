@@ -1,14 +1,9 @@
 package dev.flrp.espresso.hooks.economy;
 
+import dev.flrp.espresso.hooks.Hook;
 import org.bukkit.OfflinePlayer;
 
-public interface EconomyProvider {
-
-    /**
-     * Check if the economy plugin is enabled.
-     * @return True if the economy hook is enabled.
-     */
-    boolean isEnabled();
+public interface EconomyProvider extends Hook {
 
     /**
      * Check if the player has an account.

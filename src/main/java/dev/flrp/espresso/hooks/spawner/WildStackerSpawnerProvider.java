@@ -1,29 +1,33 @@
 package dev.flrp.espresso.hooks.spawner;
 
 import com.bgsoftware.wildstacker.api.WildStackerAPI;
-import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
+
+import javax.annotation.Nullable;
 
 public class WildStackerSpawnerProvider implements SpawnerProvider {
 
     @Override
-    public boolean isEnabled() {
-        return Bukkit.getPluginManager().isPluginEnabled("WildStacker");
+    public String getName() {
+        return "WildStacker";
     }
 
     @Override
     public boolean isSpawner(Block block) {
+        if(!isEnabled()) return false;
         return WildStackerAPI.getWildStacker().getSystemManager().isStackedSpawner(block);
     }
 
-    @Override
-    public EntityType getSpawnerType(Block block) {
+    @Override @Nullable
+    public EntityType getSpawnerEntityType(Block block) {
+        if(!isSpawner(block)) return null;
         return WildStackerAPI.getWildStacker().getSystemManager().getStackedSpawner(block.getLocation()).getSpawnedType();
     }
 
     @Override
     public int getSpawnerStackSize(Block block) {
+        if(!isSpawner(block)) return 0;
         return WildStackerAPI.getWildStacker().getSystemManager().getStackedSpawner(block.getLocation()).getStackAmount();
     }
 
