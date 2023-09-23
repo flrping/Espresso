@@ -20,6 +20,10 @@ To install Espresso, you need to add the following to your `pom.xml` file:
     </dependency>
 </dependencies>
 ```
+## Functions
+Espresso provides many functions for you to use in your plugin. These include:
+- Loot Tables and Loot classes to build your own loot tables.
+- Integrations with other plugins, with providers, to easily hook into a plugin for support.
 
 ## Plugin Hook List & Usage
 Most of these hook categories include a Provider class. This can be used in your plugin
@@ -56,6 +60,9 @@ public class HookManager {
     }
 }
 ```
+If your plugin is more complex, it is recommended you use a dependency injection 
+framework like [Guice](https://github.com/google/guice) or [Spring](https://spring.io/projects/spring-framework).
+
 In another class you can reference this provider and use it to get the economy.
 
 ```java
@@ -96,7 +103,6 @@ The current plugins it adds hooks for are:
   - InfernalMobs
   - LevelledMobs
 - Holograms
-  - HolographicDisplays
   - DecentHolograms
 - Items
   - ItemsAdder
@@ -116,7 +122,9 @@ The current plugins it adds hooks for are:
 
 Plugins you have to source out yourself due to lack of a public repository or updated version if you wish to download the source code:
  - InfernalMobs
+ - LevelledMobs
  - TokenManager [3.2.8+]
+ - MythicLib
 
 If you do decide to use Espresso, thanks! I hope it helps you out. More functions and hooks will be available soon.
 
