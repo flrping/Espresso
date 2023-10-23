@@ -13,6 +13,11 @@ public class ItemsAdderItemProvider implements ItemProvider {
         return "ItemsAdder";
     }
 
+    @Override
+    public ItemType getType() {
+        return ItemType.ITEMS_ADDER;
+    }
+
     @Override @Nullable
     public String getCustomItemName(ItemStack item) {
         if(!isEnabled()) return null;
@@ -33,6 +38,17 @@ public class ItemsAdderItemProvider implements ItemProvider {
         CustomStack stack = CustomStack.getInstance(itemName);
         if(stack != null) {
             player.getInventory().addItem(stack.getItemStack());
+        }
+    }
+
+    @Override
+    public void giveItem(Player player, String itemName, int amount) {
+        if(!isEnabled()) return;
+        CustomStack stack = CustomStack.getInstance(itemName);
+        if(stack != null) {
+            ItemStack item = stack.getItemStack();
+            item.setAmount(amount);
+            player.getInventory().addItem(item);
         }
     }
 

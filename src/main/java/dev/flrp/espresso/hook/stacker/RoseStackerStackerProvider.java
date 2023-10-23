@@ -21,6 +21,11 @@ public class RoseStackerStackerProvider implements StackerProvider {
     }
 
     @Override
+    public StackerType getType() {
+        return StackerType.ROSE_STACKER;
+    }
+
+    @Override
     public void registerEvents() {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }

@@ -7,6 +7,8 @@ import org.bukkit.inventory.ItemStack;
 
 public interface ItemProvider extends Hook {
 
+    ItemType getType();
+
     @Override
     default HookPurpose getPurpose() {
         return HookPurpose.ITEM;
@@ -34,5 +36,14 @@ public interface ItemProvider extends Hook {
      * @param itemName The name of the custom item.
      */
     void giveItem(Player player, String itemName);
+
+    /**
+     * Gives the player a custom item.
+     *
+     * @param player The player to give the item to.
+     * @param itemName The name of the custom item.
+     * @param amount The amount of the custom item.
+     */
+    void giveItem(Player player, String itemName, int amount);
 
 }

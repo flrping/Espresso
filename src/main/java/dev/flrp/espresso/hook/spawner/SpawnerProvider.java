@@ -7,6 +7,8 @@ import org.bukkit.entity.EntityType;
 
 public interface SpawnerProvider extends Hook {
 
+    SpawnerType getType();
+
     @Override
     default HookPurpose getPurpose() {
         return HookPurpose.SPAWNER;

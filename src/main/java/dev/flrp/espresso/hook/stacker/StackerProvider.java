@@ -13,6 +13,13 @@ public interface StackerProvider extends Hook, Listener {
     }
 
     /**
+     * Get the stacker type.
+     *
+     * @return the stacker type.
+     */
+    StackerType getType();
+
+    /**
      * Register the events for the stacker hook.
      */
     void registerEvents();

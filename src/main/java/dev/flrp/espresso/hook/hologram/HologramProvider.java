@@ -4,7 +4,11 @@ import dev.flrp.espresso.hook.Hook;
 import dev.flrp.espresso.hook.HookPurpose;
 import org.bukkit.Location;
 
+import java.util.List;
+
 public interface HologramProvider extends Hook {
+
+    HologramType getType();
 
     @Override
     default HookPurpose getPurpose() {
@@ -12,6 +16,8 @@ public interface HologramProvider extends Hook {
     }
 
     void createHologram(String id, Location location, String... lines);
+
+    void createHologram(String id, Location location, List<String> lines);
 
     void moveHologram(String id, Location location);
 

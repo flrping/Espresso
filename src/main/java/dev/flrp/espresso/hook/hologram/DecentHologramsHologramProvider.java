@@ -16,6 +16,11 @@ public class DecentHologramsHologramProvider implements HologramProvider {
     }
 
     @Override
+    public HologramType getType() {
+        return HologramType.DECENT_HOLOGRAMS;
+    }
+
+    @Override
     public void createHologram(String id, Location location, String... lines) {
         Location spawnLocation = location.clone().add(0.5, 0.5, 0.5);
 
@@ -23,6 +28,14 @@ public class DecentHologramsHologramProvider implements HologramProvider {
         Collections.addAll(linesList, lines);
 
         DHAPI.createHologram(id, spawnLocation, linesList);
+        hologramIDs.add(id);
+    }
+
+    @Override
+    public void createHologram(String id, Location location, List<String> lines) {
+        Location spawnLocation = location.clone().add(0.5, 0.5, 0.5);
+
+        DHAPI.createHologram(id, spawnLocation, lines);
         hologramIDs.add(id);
     }
 

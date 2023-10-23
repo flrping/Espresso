@@ -13,6 +13,8 @@ public interface EntityProvider extends Hook {
      // This allows plugins to do unique things with entities that have custom identifiers.
      // They have a higher likely-hood of having custom models and more.
 
+    EntityType getType();
+
     @Override
     default HookPurpose getPurpose() {
         return HookPurpose.ENTITY;

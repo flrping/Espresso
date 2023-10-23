@@ -13,6 +13,11 @@ public class OraxenItemProvider implements ItemProvider {
         return "Oraxen";
     }
 
+    @Override
+    public ItemType getType() {
+        return ItemType.ORAXEN;
+    }
+
     @Override @Nullable
     public String getCustomItemName(ItemStack item) {
         if(!isCustomItem(item)) return null;
@@ -29,6 +34,14 @@ public class OraxenItemProvider implements ItemProvider {
     public void giveItem(Player player, String itemName) {
         if(!isEnabled()) return;
         ItemStack item = OraxenItems.getItemById(itemName).build();
+        player.getInventory().addItem(item);
+    }
+
+    @Override
+    public void giveItem(Player player, String itemName, int amount) {
+        if(!isEnabled()) return;
+        ItemStack item = OraxenItems.getItemById(itemName).build();
+        item.setAmount(amount);
         player.getInventory().addItem(item);
     }
 

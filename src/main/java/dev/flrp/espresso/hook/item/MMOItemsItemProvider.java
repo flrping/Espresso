@@ -14,6 +14,11 @@ public class MMOItemsItemProvider implements ItemProvider {
         return "MMOItems";
     }
 
+    @Override
+    public ItemType getType() {
+        return ItemType.MMO_ITEMS;
+    }
+
     @Override @Nullable
     public String getCustomItemName(ItemStack item) {
         if(!isCustomItem(item)) return null;
@@ -35,6 +40,19 @@ public class MMOItemsItemProvider implements ItemProvider {
         String itemName = details[1];
         MMOItem mmoitem = MMOItems.plugin.getMMOItem(MMOItems.plugin.getTypes().get(itemType), itemName);
         ItemStack item = mmoitem.newBuilder().build();
+        player.getInventory().addItem(item);
+    }
+
+    @Override
+    public void giveItem(Player player, String itemDetails, int amount) {
+        if(!isEnabled()) return;
+        // itemDetails will be in the form of type:name
+        String[] details = itemDetails.split(":");
+        String itemType = details[0];
+        String itemName = details[1];
+        MMOItem mmoitem = MMOItems.plugin.getMMOItem(MMOItems.plugin.getTypes().get(itemType), itemName);
+        ItemStack item = mmoitem.newBuilder().build();
+        item.setAmount(amount);
         player.getInventory().addItem(item);
     }
 

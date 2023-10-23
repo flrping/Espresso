@@ -14,6 +14,11 @@ public class UpgradeableSpawnersSpawnerProvider implements SpawnerProvider {
     }
 
     @Override
+    public SpawnerType getType() {
+        return SpawnerType.UPGRADEABLE_SPAWNERS;
+    }
+
+    @Override
     public boolean isSpawner(Block block) {
         if(!isEnabled()) return false;
         return UpgradeableSpawnersAPI.getInstance().getSpawner(block) != null;

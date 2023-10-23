@@ -22,6 +22,11 @@ public class StackMobStackerProvider implements StackerProvider {
     }
 
     @Override
+    public StackerType getType() {
+        return StackerType.STACK_MOB;
+    }
+
+    @Override
     public void registerEvents() {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }

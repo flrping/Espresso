@@ -5,6 +5,11 @@ import org.bukkit.entity.Player;
 public interface Lootable {
 
     /**
+     * @return The loot type.
+     */
+    LootType getType();
+
+    /**
      * @return The identifier of the loot.
      */
     String getIdentifier();
@@ -37,10 +42,44 @@ public interface Lootable {
      */
     void setAmount(double amount);
 
+    /**
+     * Get the additional amount of the loot.
+     * @return The additional amount of the loot.
+     */
+    double getAddition();
 
     /**
-     * Runs a command for this loot if needed.
+     * Set the additional amount of the loot.
+     * @param addition The additional amount of the loot.
+     */
+    void setAddition(double addition);
+
+    /**
+     * Rewards the player with the loot.
+     * @param player The player to reward.
      */
     void reward(Player player);
+
+    /**
+     * Rewards the player with the loot.
+     * @param player The player to reward.
+     * @param amount The amount of the loot.
+     */
+    void reward(Player player, double amount);
+
+    /**
+     * @return If this loot has a custom message.
+     */
+    boolean hasMessage();
+
+    /**
+     * Sets a custom message for this loot.
+     */
+    void setMessage(String message);
+
+    /**
+     * @return Get the custom message of the loot.
+     */
+    String getMessage();
 
 }

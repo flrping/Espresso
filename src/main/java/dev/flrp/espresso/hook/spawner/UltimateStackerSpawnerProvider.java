@@ -15,6 +15,11 @@ public class UltimateStackerSpawnerProvider implements SpawnerProvider {
     }
 
     @Override
+    public SpawnerType getType() {
+        return SpawnerType.ULTIMATE_STACKER;
+    }
+
+    @Override
     public boolean isSpawner(Block block) {
         if(!isEnabled()) return false;
         return UltimateStackerApi.getSpawnerStackManager().isSpawner(block);

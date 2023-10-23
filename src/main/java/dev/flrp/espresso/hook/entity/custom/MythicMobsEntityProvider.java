@@ -22,6 +22,11 @@ public class MythicMobsEntityProvider implements EntityProvider, Levelled {
     }
 
     @Override
+    public EntityType getType() {
+        return EntityType.MYTHIC_MOBS;
+    }
+
+    @Override
     public HookPurpose getPurpose() {
         return EntityProvider.super.getPurpose();
     }

@@ -14,6 +14,11 @@ public class WildStackerSpawnerProvider implements SpawnerProvider {
     }
 
     @Override
+    public SpawnerType getType() {
+        return SpawnerType.WILD_STACKER;
+    }
+
+    @Override
     public boolean isSpawner(Block block) {
         if(!isEnabled()) return false;
         return WildStackerAPI.getWildStacker().getSystemManager().isStackedSpawner(block);

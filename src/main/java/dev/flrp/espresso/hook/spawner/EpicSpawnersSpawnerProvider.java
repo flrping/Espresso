@@ -14,6 +14,11 @@ public class EpicSpawnersSpawnerProvider implements SpawnerProvider {
     }
 
     @Override
+    public SpawnerType getType() {
+        return SpawnerType.EPIC_SPAWNERS;
+    }
+
+    @Override
     public boolean isSpawner(Block block) {
         if(!isEnabled()) return false;
         return EpicSpawnersApi.getSpawnerManager().isSpawner(block.getLocation());

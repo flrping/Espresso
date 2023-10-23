@@ -6,7 +6,7 @@ public enum SpawnerType {
     EPIC_SPAWNERS,
     ROSE_STACKER,
     ULTIMATE_STACKER,
-    UPGRADABLE_SPAWNERS,
+    UPGRADEABLE_SPAWNERS,
     WILD_STACKER;
 
     public static SpawnerType getByName(String name) {

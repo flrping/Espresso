@@ -13,6 +13,11 @@ public class ItemsAdderEntityProvider implements EntityProvider {
         return "ItemsAdder";
     }
 
+    @Override
+    public EntityType getType() {
+        return EntityType.ITEMS_ADDER;
+    }
+
     @Override @Nullable
     public String getCustomEntityName(LivingEntity entity) {
         if(!isCustomEntity(entity)) return null;

@@ -20,6 +20,11 @@ public class RoseStackerSpawnerProvider implements SpawnerProvider {
     }
 
     @Override
+    public SpawnerType getType() {
+        return SpawnerType.ROSE_STACKER;
+    }
+
+    @Override
     public boolean isSpawner(Block block) {
         if(roseStackerAPI == null) return false;
         return roseStackerAPI.isSpawnerStacked(block);

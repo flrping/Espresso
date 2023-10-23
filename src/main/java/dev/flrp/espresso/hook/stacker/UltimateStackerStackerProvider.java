@@ -19,6 +19,11 @@ public class UltimateStackerStackerProvider implements StackerProvider {
     }
 
     @Override
+    public StackerType getType() {
+        return StackerType.ULTIMATE_STACKER;
+    }
+
+    @Override
     public void registerEvents() {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
