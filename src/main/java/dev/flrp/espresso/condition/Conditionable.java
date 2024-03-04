@@ -12,4 +12,10 @@ public interface Conditionable {
 
     List<Condition> getConditions();
 
+    void setConditions(List<Condition> conditions);
+
+    void addCondition(Condition condition);
+
+    void removeCondition(Condition condition);
+
 }

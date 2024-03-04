@@ -1,14 +1,13 @@
 package dev.flrp.espresso.table;
 
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class LootableItem implements Lootable {
 
     private String identifier;
     private double weight;
-    private double amount;
-    private double addition = 0;
+    private double min;
+    private double max;
     private ItemStack itemStack;
 
     private String message;
@@ -17,14 +16,14 @@ public class LootableItem implements Lootable {
         this.identifier = identifier;
         this.itemStack = itemStack;
         this.weight = weight;
-        this.amount = itemStack.getAmount();
     }
 
-    public LootableItem(String identifier, ItemStack itemStack, double weight, double amount) {
+    public LootableItem(String identifier, ItemStack itemStack, double weight, double min, double max) {
         this.identifier = identifier;
         this.itemStack = itemStack;
         this.weight = weight;
-        this.amount = amount;
+        this.min = min;
+        this.max = max;
     }
 
     @Override
@@ -53,36 +52,23 @@ public class LootableItem implements Lootable {
     }
 
     @Override
-    public double getAmount() {
-        return amount;
+    public double getMin() {
+        return min;
     }
 
     @Override
-    public void setAmount(double amount) {
-        this.amount = amount;
-        itemStack.setAmount((int) Math.floor(amount));
+    public void setMin(double min) {
+        this.min = min;
     }
 
     @Override
-    public double getAddition() {
-        return addition;
+    public double getMax() {
+        return max;
     }
 
     @Override
-    public void setAddition(double addition) {
-        this.addition = addition;
-    }
-
-    @Override
-    public void reward(Player player) {
-        player.getInventory().addItem(itemStack);
-    }
-
-    @Override
-    public void reward(Player player, double amount) {
-        itemStack.setAmount((int) Math.floor(amount));
-        player.getInventory().addItem(itemStack);
-        itemStack.setAmount((int) Math.floor(this.amount));
+    public void setMax(double max) {
+        this.max = max;
     }
 
     @Override
@@ -106,6 +92,15 @@ public class LootableItem implements Lootable {
 
     public void setItemStack(ItemStack itemStack) {
         this.itemStack = itemStack;
+    }
+
+    @Override
+    public LootableItem clone() {
+        try {
+            return (LootableItem) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 
 }

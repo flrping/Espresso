@@ -3,7 +3,7 @@ package dev.flrp.espresso.table;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 
-public class LootContainer {
+public class LootContainer implements Cloneable {
 
     /**
      * The purpose of this class is to hold a set of loot tables for an object (like an entity).
@@ -100,6 +100,20 @@ public class LootContainer {
         LootTable lootTable = rollLootTable();
         if (lootTable == null) return null;
         return rollLoot(lootTable);
+    }
+
+    @Override
+    public LootContainer clone() {
+        try {
+            LootContainer clonedContainer = (LootContainer) super.clone();
+            clonedContainer.getLootTables().clear();
+            for(LootTable lootTable : lootTables.values()) {
+                clonedContainer.addLootTable(lootTable.clone());
+            }
+            return clonedContainer;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 
 }

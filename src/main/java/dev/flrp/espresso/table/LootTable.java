@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class LootTable implements Conditionable {
+public class LootTable implements Conditionable, Cloneable {
 
     private String identifier;
     private double weight;
@@ -16,7 +16,7 @@ public class LootTable implements Conditionable {
 
     private double entryTotalWeight;
 
-    private final List<Condition> conditions = new ArrayList<>();
+    private List<Condition> conditions = new ArrayList<>();
 
     public LootTable(String name, double weight) {
         this.identifier = name;
@@ -162,5 +162,38 @@ public class LootTable implements Conditionable {
     public List<Condition> getConditions() {
         return conditions;
     }
+
+    @Override
+    public void setConditions(List<Condition> conditions) {
+        this.conditions.clear();
+        this.conditions.addAll(conditions);
+    }
+
+    @Override
+    public void addCondition(Condition condition) {
+        conditions.add(condition);
+    }
+
+    @Override
+    public void removeCondition(Condition condition) {
+        conditions.remove(condition);
+    }
+
+    @Override
+    public LootTable clone() {
+        try {
+            LootTable clonedTable = (LootTable) super.clone();
+            clonedTable.weight = this.weight;
+            clonedTable.conditions = new ArrayList<>(this.conditions);
+            clonedTable.loots.clear();
+            for(Lootable loot : this.loots.values()) {
+                clonedTable.loots.put(loot.getIdentifier(), loot);
+            }
+            return clonedTable;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError(e);
+        }
+    }
+
 
 }

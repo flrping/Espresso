@@ -1,23 +1,27 @@
 package dev.flrp.espresso.table;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
 public class LootableCommand implements Lootable {
 
     private String identifier;
     private String command;
     private double weight;
-    private double amount;
-    private double addition = 0;
+    private double min;
+    private double max;
 
     private String message;
 
-    public LootableCommand(String identifier, String command, double weight, double amount) {
+    public LootableCommand(String identifier, String command, double weight) {
         this.identifier = identifier;
         this.command = command;
         this.weight = weight;
-        this.amount = amount;
+    }
+
+    public LootableCommand(String identifier, String command, double weight, double min, double max) {
+        this.identifier = identifier;
+        this.command = command;
+        this.weight = weight;
+        this.min = min;
+        this.max = max;
     }
 
     @Override
@@ -46,33 +50,23 @@ public class LootableCommand implements Lootable {
     }
 
     @Override
-    public double getAmount() {
-        return amount;
+    public double getMin() {
+        return min;
     }
 
     @Override
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setMin(double min) {
+        this.min = min;
     }
 
     @Override
-    public double getAddition() {
-        return addition;
+    public double getMax() {
+        return max;
     }
 
     @Override
-    public void setAddition(double addition) {
-        this.addition = addition;
-    }
-
-    @Override
-    public void reward(Player player) {
-        for(int i = 0; i < amount; i++) Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%player%", player.getName()));
-    }
-
-    @Override
-    public void reward(Player player, double amount) {
-        for(int i = 0; i < amount; i++) Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%player%", player.getName()));
+    public void setMax(double max) {
+        this.max = max;
     }
 
     @Override
@@ -96,6 +90,15 @@ public class LootableCommand implements Lootable {
 
     public void setCommand(String command) {
         this.command = command;
+    }
+
+    @Override
+    public LootableCommand clone() {
+        try {
+            return (LootableCommand) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 
 }

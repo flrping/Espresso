@@ -1,32 +1,27 @@
 package dev.flrp.espresso.table;
 
 import dev.flrp.espresso.hook.item.ItemProvider;
+import dev.flrp.espresso.hook.item.ItemType;
 import org.bukkit.entity.Player;
 
 public class LootableCustomItem implements Lootable {
 
     private String identifier;
     private double weight;
-    private double amount;
-    private double addition = 0;
+    private double min;
+    private double max;
     private String customItemName;
-    private ItemProvider itemProvider;
+    private ItemType itemType;
 
     private String message;
 
-    public LootableCustomItem(String identifier, double weight, double amount, String customItemName) {
+    public LootableCustomItem(String identifier, String customItemName, ItemType itemType, double weight, double min, double max) {
         this.identifier = identifier;
         this.weight = weight;
-        this.amount = amount;
+        this.min = min;
+        this.max = max;
         this.customItemName = customItemName;
-    }
-
-    public LootableCustomItem(String identifier, double weight, double amount, String customItemName, ItemProvider itemProvider) {
-        this.identifier = identifier;
-        this.weight = weight;
-        this.amount = amount;
-        this.customItemName = customItemName;
-        this.itemProvider = itemProvider;
+        this.itemType = itemType;
     }
 
     @Override
@@ -55,33 +50,23 @@ public class LootableCustomItem implements Lootable {
     }
 
     @Override
-    public double getAmount() {
-        return amount;
+    public double getMin() {
+        return min;
     }
 
     @Override
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setMin(double min) {
+        this.min = min;
     }
 
     @Override
-    public double getAddition() {
-        return addition;
+    public double getMax() {
+        return max;
     }
 
     @Override
-    public void setAddition(double addition) {
-        this.addition = addition;
-    }
-
-    @Override
-    public void reward(Player player) {
-        itemProvider.giveItem(player, customItemName);
-    }
-
-    @Override
-    public void reward(Player player, double amount) {
-        itemProvider.giveItem(player, customItemName);
+    public void setMax(double max) {
+        this.max = max;
     }
 
     @Override
@@ -107,12 +92,21 @@ public class LootableCustomItem implements Lootable {
         this.customItemName = itemName;
     }
 
-    public ItemProvider getItemProvider() {
-        return itemProvider;
+    public ItemType getItemType() {
+        return itemType;
     }
 
-    public void setItemProvider(ItemProvider itemProvider) {
-        this.itemProvider = itemProvider;
+    public void setItemType(ItemType itemType) {
+        this.itemType = itemType;
+    }
+
+    @Override
+    public LootableCustomItem clone() {
+        try {
+            return (LootableCustomItem) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 
 }

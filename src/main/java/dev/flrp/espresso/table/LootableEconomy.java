@@ -1,29 +1,25 @@
 package dev.flrp.espresso.table;
 
 import dev.flrp.espresso.hook.economy.EconomyProvider;
+import dev.flrp.espresso.hook.economy.EconomyType;
 import org.bukkit.entity.Player;
 
-public class LootableEconomy implements Lootable {
+public class LootableEconomy implements Lootable, Cloneable {
 
     private String identifier;
     private double weight;
-    private double amount;
-    private double addition = 0;
-    private EconomyProvider economyProvider;
+    private double min;
+    private double max;
+    private EconomyType economyType;
 
     private String message;
 
-    public LootableEconomy(String identifier, double weight, double amount) {
+    public LootableEconomy(String identifier, EconomyType economyType, double weight, double min, double max) {
         this.identifier = identifier;
+        this.economyType = economyType;
         this.weight = weight;
-        this.amount = amount;
-    }
-
-    public LootableEconomy(String identifier, double weight, double amount, EconomyProvider economyProvider) {
-        this.economyProvider = economyProvider;
-        this.identifier = identifier;
-        this.weight = weight;
-        this.amount = amount;
+        this.min = min;
+        this.max = max;
     }
 
     @Override
@@ -52,33 +48,23 @@ public class LootableEconomy implements Lootable {
     }
 
     @Override
-    public double getAmount() {
-        return amount;
+    public double getMin() {
+        return min;
     }
 
     @Override
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setMin(double min) {
+        this.min = min;
     }
 
     @Override
-    public double getAddition() {
-        return addition;
+    public double getMax() {
+        return max;
     }
 
     @Override
-    public void setAddition(double addition) {
-        this.addition = addition;
-    }
-
-    @Override
-    public void reward(Player player) {
-        economyProvider.deposit(player, amount);
-    }
-
-    @Override
-    public void reward(Player player, double amount) {
-        economyProvider.deposit(player, amount);
+    public void setMax(double max) {
+        this.max = max;
     }
 
     @Override
@@ -99,16 +85,24 @@ public class LootableEconomy implements Lootable {
     /**
      * @return The economy provider.
      */
-    public EconomyProvider getEconomyProvider() {
-        return economyProvider;
+    public EconomyType getEconomyType() {
+        return economyType;
     }
 
     /**
      * Set the economy provider.
-     * @param economyProvider The economy provider.
+     * @param economyType The economy type.
      */
-    public void setEconomyProvider(EconomyProvider economyProvider) {
-        this.economyProvider = economyProvider;
+    public void setEconomyType(EconomyType economyType) {
+        this.economyType = economyType;
     }
 
+    @Override
+    public LootableEconomy clone() {
+        try {
+            return (LootableEconomy) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }

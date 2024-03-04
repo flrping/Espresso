@@ -9,17 +9,27 @@ public class LootablePotionEffect implements Lootable {
     private String identifier;
     private PotionEffectType effectType;
     private int amplifier;
-    private int duration;
+    private double min;
+    private double max;
     private double weight;
 
     private String message;
 
-    public LootablePotionEffect(String identifier, PotionEffectType effectType, int amplifier, int duration, double weight) {
+    public LootablePotionEffect(String identifier, PotionEffectType effectType, int amplifier, double weight) {
         this.identifier = identifier;
         this.effectType = effectType;
         this.amplifier = amplifier;
-        this.duration = duration;
         this.weight = weight;
+
+    }
+
+    public LootablePotionEffect(String identifier, PotionEffectType effectType, int amplifier, double weight, double min, double max) {
+        this.identifier = identifier;
+        this.effectType = effectType;
+        this.amplifier = amplifier;
+        this.weight = weight;
+        this.min = min;
+        this.max = max;
     }
 
     @Override
@@ -48,33 +58,23 @@ public class LootablePotionEffect implements Lootable {
     }
 
     @Override
-    public double getAmount() {
-        return 1;
+    public double getMin() {
+        return min;
     }
 
     @Override
-    public void setAmount(double amount) {
-        // Do nothing.
+    public void setMin(double min) {
+        this.min = min;
     }
 
     @Override
-    public double getAddition() {
-        return 0;
+    public double getMax() {
+        return max;
     }
 
     @Override
-    public void setAddition(double addition) {
-        // Do nothing.
-    }
-
-    @Override
-    public void reward(Player player) {
-        player.addPotionEffect(new PotionEffect(effectType, duration, amplifier));
-    }
-
-    @Override
-    public void reward(Player player, double amount) {
-        player.addPotionEffect(new PotionEffect(effectType, duration, amplifier));
+    public void setMax(double max) {
+        this.max = max;
     }
 
     @Override
@@ -108,12 +108,13 @@ public class LootablePotionEffect implements Lootable {
         this.amplifier = amplifier;
     }
 
-    public int getDuration() {
-        return duration;
-    }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    @Override
+    public LootablePotionEffect clone() {
+        try {
+            return (LootablePotionEffect) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
-
 }

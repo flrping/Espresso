@@ -120,12 +120,6 @@ The current plugins it adds hooks for are:
   - UltimateStacker [3.0.0+]
   - RoseStacker
 
-Plugins you have to source out yourself due to lack of a public repository or updated version if you wish to download the source code:
- - InfernalMobs
- - LevelledMobs
- - TokenManager [3.2.8+]
- - MythicLib
-
 If you do decide to use Espresso, thanks! I hope it helps you out. More functions and hooks will be available soon.
 
 **DISCLAIMER:** Some methods may not be available for some plugins, resulting in throwing an UnsupportedOperationException. This is because the plugin does not have the functionality from its API. 

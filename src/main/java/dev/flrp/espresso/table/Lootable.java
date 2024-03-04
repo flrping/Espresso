@@ -1,8 +1,6 @@
 package dev.flrp.espresso.table;
 
-import org.bukkit.entity.Player;
-
-public interface Lootable {
+public interface Lootable extends Cloneable {
 
     /**
      * @return The loot type.
@@ -32,40 +30,43 @@ public interface Lootable {
     void setWeight(double weight);
 
     /**
-     * @return Get the amount of the loot.
+     * Get the minimum amount of the loot.
      */
-    double getAmount();
+    double getMin();
 
     /**
-     *  Set the amount of the loot.
-     *  @param amount The amount of the loot.
+     * Set the minimum amount of the loot.
+     * @param min The minimum amount of the loot.
      */
-    void setAmount(double amount);
+    void setMin(double min);
 
     /**
-     * Get the additional amount of the loot.
-     * @return The additional amount of the loot.
+     * Get the maximum amount of the loot.
      */
-    double getAddition();
+    double getMax();
 
     /**
-     * Set the additional amount of the loot.
-     * @param addition The additional amount of the loot.
+     * Set the maximum amount of the loot.
+     * @param max The maximum amount of the loot.
      */
-    void setAddition(double addition);
+    void setMax(double max);
 
     /**
-     * Rewards the player with the loot.
-     * @param player The player to reward.
+     * Roll the amount of the loot.
      */
-    void reward(Player player);
+    default double rollAmount() {
+        return Math.random() * (getMax() - getMin()) + getMin();
+    }
 
     /**
-     * Rewards the player with the loot.
-     * @param player The player to reward.
-     * @param amount The amount of the loot.
+     * Generates a LootResult from this loot.
      */
-    void reward(Player player, double amount);
+    default LootResult generateResult() {
+        LootResult result = new LootResult();
+        result.setLootable(this);
+        result.setAmount((int) rollAmount());
+        return result;
+    }
 
     /**
      * @return If this loot has a custom message.
