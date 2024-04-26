@@ -14,7 +14,7 @@ public class LootUtils {
      */
 
     public static LootableEconomy createEconomyLoot(ConfigurationSection section) {
-        String identifier = section.getString("identifier");
+        String identifier = section.getName();
         double weight = section.getDouble("weight");
         double min = section.getDouble("min");
         double max = section.getDouble("max");
@@ -23,7 +23,7 @@ public class LootUtils {
     }
 
     public static LootableItem createItemLoot(ConfigurationSection section) {
-        String identifier = section.getString("identifier");
+        String identifier = section.getName();
         double weight = section.getDouble("weight");
         double min = section.getDouble("min");
         double max = section.getDouble("max");
@@ -31,7 +31,7 @@ public class LootUtils {
     }
 
     public static LootableCommand createCommandLoot(ConfigurationSection section) {
-        String identifier = section.getString("identifier");
+        String identifier = section.getName();
         double weight = section.getDouble("weight");
         double min = section.getDouble("min");
         double max = section.getDouble("max");
@@ -39,7 +39,7 @@ public class LootUtils {
     }
 
     public static LootableCustomItem createCustomItemLoot(ConfigurationSection section) {
-        String identifier = section.getString("identifier");
+        String identifier = section.getName();
         double weight = section.getDouble("weight");
         double min = section.getDouble("min");
         double max = section.getDouble("max");
@@ -48,7 +48,7 @@ public class LootUtils {
     }
 
     public static LootablePotionEffect createPotionEffectLoot(ConfigurationSection section) {
-        String identifier = section.getString("identifier");
+        String identifier = section.getName();
         double weight = section.getDouble("weight");
         double min = section.getDouble("min");
         double max = section.getDouble("max");

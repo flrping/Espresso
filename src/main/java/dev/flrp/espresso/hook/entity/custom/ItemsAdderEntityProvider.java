@@ -31,4 +31,18 @@ public class ItemsAdderEntityProvider implements EntityProvider {
         return CustomEntity.isCustomEntity(entity);
     }
 
+    @Override
+    public boolean isCustomEntity(String entity) {
+        if (!isEnabled()) return false;
+
+        // Check if the entity name matches any custom entity name
+        if (CustomEntity.getNamespacedIdsInRegistry().contains(entity)) {
+            return true;
+        }
+
+        // Check if the entity name matches any custom entity name without the namespace ID
+        String entityWithoutNamespace = entity.contains(":") ? entity.split(":")[1] : entity;
+        return CustomEntity.getNamespacedIdsInRegistry().stream().anyMatch(id -> id.endsWith(entityWithoutNamespace));
+    }
+
 }

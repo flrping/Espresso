@@ -6,7 +6,9 @@ public enum ConditionType {
     WITH,
     BIOME,
     AGE,
-    STAGE;
+    STAGE,
+    WORLD,
+    PERMISSION;
 
     public static ConditionType getByName(String name) {
         for (ConditionType type : ConditionType.values()) {
