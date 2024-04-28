@@ -36,4 +36,12 @@ public interface EntityProvider extends Hook {
      */
     boolean isCustomEntity(LivingEntity entity);
 
+    /**
+     * Checks if the entity is a custom entity.
+     *
+     * @param entity The entity to check.
+     * @return Whether the entity is a custom entity.
+     */
+    boolean isCustomEntity(String entity);
+
 }

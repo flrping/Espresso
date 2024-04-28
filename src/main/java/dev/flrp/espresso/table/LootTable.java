@@ -185,10 +185,6 @@ public class LootTable implements Conditionable, Cloneable {
             LootTable clonedTable = (LootTable) super.clone();
             clonedTable.weight = this.weight;
             clonedTable.conditions = new ArrayList<>(this.conditions);
-            clonedTable.loots.clear();
-            for(Lootable loot : this.loots.values()) {
-                clonedTable.loots.put(loot.getIdentifier(), loot);
-            }
             return clonedTable;
         } catch (CloneNotSupportedException e) {
             throw new AssertionError(e);

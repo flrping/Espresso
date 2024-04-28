@@ -44,6 +44,12 @@ public class MythicMobsEntityProvider implements EntityProvider, Levelled {
     }
 
     @Override
+    public boolean isCustomEntity(String entity) {
+        if(mythicMobs == null) return false;
+        return mythicMobs.getMobManager().getMythicMob(entity).isPresent();
+    }
+
+    @Override
     public boolean hasLevel(LivingEntity entity) {
         if(!isCustomEntity(entity)) return false;
         return mythicMobs.getMobManager().getActiveMob(entity.getUniqueId()).get().getLevel() > 0;
