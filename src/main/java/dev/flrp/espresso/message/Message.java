@@ -6,6 +6,7 @@ import dev.flrp.espresso.util.StringUtils;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -84,10 +85,15 @@ public class Message {
     }
 
     public void at(LivingEntity entity) {
+        at(entity.getLocation());
+    }
+
+    public void at(Location location) {
         if (type == MessageType.HOLOGRAM) {
-            hologramSetting.getHologramProvider().createHologram(UUID.randomUUID().toString(), entity.getLocation(), template);
+            String uuid = UUID.randomUUID().toString();
+            hologramSetting.getHologramProvider().createHologram(uuid, location, template);
             if (hologramSetting.getDuration() > 0) {
-                Bukkit.getScheduler().runTaskLater(hologramSetting.getPlugin(), () -> hologramSetting.getHologramProvider().removeHologram(entity.getUniqueId().toString()), hologramSetting.getDuration());
+                Bukkit.getScheduler().runTaskLater(hologramSetting.getPlugin(), () -> hologramSetting.getHologramProvider().removeHologram(uuid), hologramSetting.getDuration());
             }
         } else {
             throw new UnsupportedOperationException("This method is only supported for holograms. Use to(Player player) instead.");

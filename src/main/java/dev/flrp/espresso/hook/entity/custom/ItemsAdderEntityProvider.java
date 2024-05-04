@@ -5,8 +5,18 @@ import dev.lone.itemsadder.api.CustomEntity;
 import org.bukkit.entity.LivingEntity;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemsAdderEntityProvider implements EntityProvider {
+
+    private final List<String> entityNames = new ArrayList<>();
+
+    public ItemsAdderEntityProvider() {
+        for(String name : CustomEntity.getNamespacedIdsInRegistry()) {
+            entityNames.add(StringUtils.getItemsAdderName(name));
+        }
+    }
 
     @Override
     public String getName() {
@@ -43,6 +53,12 @@ public class ItemsAdderEntityProvider implements EntityProvider {
         // Check if the entity name matches any custom entity name without the namespace ID
         String entityWithoutNamespace = entity.contains(":") ? entity.split(":")[1] : entity;
         return CustomEntity.getNamespacedIdsInRegistry().stream().anyMatch(id -> id.endsWith(entityWithoutNamespace));
+    }
+
+    @Override
+    public List<String> getCustomEntityNames() {
+        if(!isEnabled()) return null;
+        return entityNames;
     }
 
 }

@@ -4,6 +4,8 @@ import dev.flrp.espresso.hook.Hook;
 import dev.flrp.espresso.hook.HookPurpose;
 import org.bukkit.entity.LivingEntity;
 
+import java.util.List;
+
 public interface EntityProvider extends Hook {
 
      // Not all plugins are exactly custom entities, some modify or level them with
@@ -43,5 +45,12 @@ public interface EntityProvider extends Hook {
      * @return Whether the entity is a custom entity.
      */
     boolean isCustomEntity(String entity);
+
+    /**
+     * Get a list of custom entity names.
+     *
+     * @return A list of custom entity names.
+     */
+    List<String> getCustomEntityNames();
 
 }

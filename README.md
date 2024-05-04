@@ -23,7 +23,11 @@ To install Espresso, you need to add the following to your `pom.xml` file:
 ## Functions
 Espresso provides many functions for you to use in your plugin. These include:
 - Loot Tables and Loot classes to build your own loot tables.
+- Conditionals to link to loot tables or other classes.
 - Integrations with other plugins, with providers, to easily hook into a plugin for support.
+- Configuration classes to easily create and manage your plugin's configuration.
+- Message builder to distribute messages to players or locations.
+- Various utility classes to help with your plugin's development.
 
 ## Plugin Hook List & Usage
 Most of these hook categories include a Provider class. This can be used in your plugin
@@ -108,6 +112,9 @@ The current plugins it adds hooks for are:
   - ItemsAdder
   - Oraxen
   - MMOItems
+- Blocks
+  - ItemsAdder
+  - Oraxen
 - Spawners
   - EpicSpawners
   - UltimateStacker [3.0.0+]
@@ -121,9 +128,5 @@ The current plugins it adds hooks for are:
   - RoseStacker
 
 If you do decide to use Espresso, thanks! I hope it helps you out. More functions and hooks will be available soon.
-
-**DISCLAIMER:** Some methods may not be available for some plugins, resulting in throwing an UnsupportedOperationException. This is because the plugin does not have the functionality from its API. 
-**DO NOT** bug or complain to developers about this. It is up to them or pull requests to make things possible. To turn these errors off, override the method in your plugin 
-or tell your users to disable the error print option in the config.
 
 
