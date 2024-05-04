@@ -6,6 +6,7 @@ public enum HookPurpose {
     STACKER,
     ENTITY,
     ITEM,
+    BLOCK,
     SPAWNER,
     HOLOGRAM,
     OTHER

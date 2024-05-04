@@ -26,6 +26,7 @@ public class WithConditionExtended implements Condition {
      * @return If the material is present.
      */
     public boolean check(ItemType itemType, String material) {
+        if(!materials.containsKey(itemType)) return false;
         return materials.get(itemType).contains(material);
     }
 
