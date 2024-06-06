@@ -1,7 +1,5 @@
 package dev.flrp.espresso.table;
 
-import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class LootablePotionEffect implements Lootable {

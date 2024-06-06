@@ -1,8 +1,6 @@
 package dev.flrp.espresso.table;
 
-import dev.flrp.espresso.hook.economy.EconomyProvider;
 import dev.flrp.espresso.hook.economy.EconomyType;
-import org.bukkit.entity.Player;
 
 public class LootableEconomy implements Lootable, Cloneable {
 

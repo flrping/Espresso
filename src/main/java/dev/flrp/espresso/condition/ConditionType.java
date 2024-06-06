@@ -8,7 +8,10 @@ public enum ConditionType {
     AGE,
     STAGE,
     WORLD,
-    PERMISSION;
+    PERMISSION,
+    LEVEL,
+    SEASON,
+    TIME;
 
     public static ConditionType getByName(String name) {
         for (ConditionType type : ConditionType.values()) {

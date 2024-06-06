@@ -1,8 +1,6 @@
 package dev.flrp.espresso.table;
 
-import dev.flrp.espresso.hook.item.ItemProvider;
 import dev.flrp.espresso.hook.item.ItemType;
-import org.bukkit.entity.Player;
 
 public class LootableCustomItem implements Lootable {
 
