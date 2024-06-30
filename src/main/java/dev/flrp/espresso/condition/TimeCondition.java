@@ -1,22 +1,22 @@
 package dev.flrp.espresso.condition;
 
-public class AgeCondition implements Condition {
+public class TimeCondition implements Condition {
 
     private int min;
     private int max;
 
-    public AgeCondition(int min, int max) {
+    public TimeCondition(int min, int max) {
         this.min = min;
         this.max = max;
     }
 
     @Override
     public ConditionType getType() {
-        return ConditionType.AGE;
+        return ConditionType.TIME;
     }
 
-    public boolean check(int age) {
-        return age >= min && age <= max;
+    public boolean check(int time) {
+        return time >= min && time <= max;
     }
 
     public int getMin() {

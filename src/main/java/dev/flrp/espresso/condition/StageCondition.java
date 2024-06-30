@@ -2,37 +2,37 @@ package dev.flrp.espresso.condition;
 
 public class StageCondition implements Condition {
 
-    private int minStage;
-    private int maxStage;
+    private int min;
+    private int max;
+
+    public StageCondition(int min, int max) {
+        this.min = min;
+        this.max = max;
+    }
 
     @Override
     public ConditionType getType() {
         return ConditionType.STAGE;
     }
 
-    public StageCondition(int minStage, int maxStage) {
-        this.minStage = minStage;
-        this.maxStage = maxStage;
-    }
-
     public boolean check(int stage) {
-        return stage >= minStage && stage <= maxStage;
+        return stage >= min && stage <= max;
     }
 
-    public int getMinStage() {
-        return minStage;
+    public int getMin() {
+        return min;
     }
 
-    public void setMinStage(int minStage) {
-        this.minStage = minStage;
+    public void setMin(int min) {
+        this.min = min;
     }
 
-    public int getMaxStage() {
-        return maxStage;
+    public int getMax() {
+        return max;
     }
 
-    public void setMaxStage(int maxStage) {
-        this.maxStage = maxStage;
+    public void setMax(int max) {
+        this.max = max;
     }
 
 }
