@@ -6,6 +6,9 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
+import java.util.Set;
+
 public interface BlockProvider extends Hook {
 
     BlockType getType();
@@ -66,5 +69,12 @@ public interface BlockProvider extends Hook {
      * @param amount The amount of the custom block.
      */
     void giveBlock(Player player, String blockName, int amount);
+
+    /**
+     * Gets a list of custom block names.
+     *
+     * @return A list of custom block names.
+     */
+    Set<String> getCustomBlockNames();
 
 }
