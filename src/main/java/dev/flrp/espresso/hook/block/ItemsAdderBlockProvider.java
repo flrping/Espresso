@@ -89,4 +89,11 @@ public class ItemsAdderBlockProvider implements BlockProvider {
         return CustomBlock.getNamespacedIdsInRegistry();
     }
 
+    @Override
+    public ItemStack getItemStack(String blockName) {
+        if(!isEnabled()) return null;
+        CustomBlock customBlock = CustomBlock.getInstance(blockName);
+        return customBlock != null ? customBlock.getItemStack() : null;
+    }
+
 }

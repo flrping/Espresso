@@ -77,4 +77,12 @@ public interface BlockProvider extends Hook {
      */
     Set<String> getCustomBlockNames();
 
+    /**
+     * Gets the ItemStack from the custom block name.
+     *
+     * @param blockName The name of the custom block.
+     * @return The block from the custom block name.
+     */
+    ItemStack getItemStack(String blockName);
+
 }

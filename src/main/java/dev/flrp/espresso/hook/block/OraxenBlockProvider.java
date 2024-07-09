@@ -72,4 +72,10 @@ public class OraxenBlockProvider implements BlockProvider {
         return OraxenBlocks.getBlockIDs();
     }
 
+    @Override
+    public ItemStack getItemStack(String blockName) {
+        if(!isEnabled()) return null;
+        return OraxenItems.getItemById(blockName).build();
+    }
+
 }
