@@ -6,6 +6,11 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class OraxenBlockProvider implements BlockProvider {
 
     @Override
@@ -59,6 +64,18 @@ public class OraxenBlockProvider implements BlockProvider {
         ItemStack item = OraxenItems.getItemById(blockName).build();
         item.setAmount(amount);
         player.getInventory().addItem(item);
+    }
+
+    @Override
+    public Set<String> getCustomBlockNames() {
+        if(!isEnabled()) return new HashSet<>();
+        return OraxenBlocks.getBlockIDs();
+    }
+
+    @Override
+    public ItemStack getItemStack(String blockName) {
+        if(!isEnabled()) return null;
+        return OraxenItems.getItemById(blockName).build();
     }
 
 }

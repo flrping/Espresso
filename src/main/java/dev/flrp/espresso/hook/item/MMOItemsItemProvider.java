@@ -56,4 +56,14 @@ public class MMOItemsItemProvider implements ItemProvider {
         player.getInventory().addItem(item);
     }
 
+    @Override
+    public ItemStack getItemStack(String itemName) {
+        if(!isEnabled()) return null;
+        // itemDetails will be in the form of type:name
+        String[] details = itemName.split(":");
+        String itemType = details[0];
+        String itemName2 = details[1];
+        return MMOItems.plugin.getMMOItem(MMOItems.plugin.getTypes().get(itemType), itemName2).newBuilder().build();
+    }
+
 }

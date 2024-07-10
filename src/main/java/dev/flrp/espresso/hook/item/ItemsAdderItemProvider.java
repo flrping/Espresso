@@ -52,4 +52,11 @@ public class ItemsAdderItemProvider implements ItemProvider {
         }
     }
 
+    @Override
+    public ItemStack getItemStack(String itemName) {
+        if(!isEnabled()) return null;
+        CustomStack stack = CustomStack.getInstance(itemName);
+        return stack != null ? stack.getItemStack() : null;
+    }
+
 }

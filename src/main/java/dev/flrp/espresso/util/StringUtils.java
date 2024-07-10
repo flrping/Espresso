@@ -24,7 +24,6 @@ public class StringUtils {
         if (input.contains(":")) {
             input = input.split(":")[1]; // Remove the namespaceID if present
         }
-
         return input;
     }
 

@@ -46,4 +46,12 @@ public interface ItemProvider extends Hook {
      */
     void giveItem(Player player, String itemName, int amount);
 
+    /**
+     * Gets the item stack of the custom item.
+     *
+     * @param itemName The name of the custom item.
+     * @return The item stack of the custom item.
+     */
+    ItemStack getItemStack(String itemName);
+
 }

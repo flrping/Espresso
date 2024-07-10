@@ -45,4 +45,10 @@ public class OraxenItemProvider implements ItemProvider {
         player.getInventory().addItem(item);
     }
 
+    @Override
+    public ItemStack getItemStack(String itemName) {
+        if(!isEnabled()) return null;
+        return OraxenItems.getItemById(itemName).build();
+    }
+
 }

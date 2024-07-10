@@ -6,6 +6,11 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class ItemsAdderBlockProvider implements BlockProvider {
 
     @Override
@@ -76,6 +81,19 @@ public class ItemsAdderBlockProvider implements BlockProvider {
             block.setAmount(amount);
             player.getInventory().addItem(block);
         }
+    }
+
+    @Override
+    public Set<String> getCustomBlockNames() {
+        if(!isEnabled()) return new HashSet<>();
+        return CustomBlock.getNamespacedIdsInRegistry();
+    }
+
+    @Override
+    public ItemStack getItemStack(String blockName) {
+        if(!isEnabled()) return null;
+        CustomBlock customBlock = CustomBlock.getInstance(blockName);
+        return customBlock != null ? customBlock.getItemStack() : null;
     }
 
 }
