@@ -4,6 +4,7 @@ import dev.flrp.espresso.message.settings.HologramSetting;
 import dev.flrp.espresso.message.settings.TitleSetting;
 import dev.flrp.espresso.util.StringUtils;
 import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -66,7 +67,14 @@ public class Message {
                 player.sendMessage(String.join("\n", template));
                 break;
             case ACTION_BAR:
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(String.join("\n", template)));
+                BaseComponent[] components = new BaseComponent[template.size()];
+                for (int i = 0; i < template.size(); i++) {
+                    components[i] = new TextComponent(TextComponent.fromLegacyText(template.get(i)));
+                    if (i < template.size() - 1) {
+                        components[i].addExtra("\n");
+                    }
+                }
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, components);
                 break;
             case HOLOGRAM:
                 hologramSetting.getHologramProvider().createHologram(UUID.randomUUID().toString(), player.getLocation(), template);
