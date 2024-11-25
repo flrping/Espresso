@@ -4,6 +4,7 @@ import dev.flrp.espresso.hook.economy.EconomyType;
 import dev.flrp.espresso.hook.item.ItemType;
 import dev.flrp.espresso.table.*;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.potion.PotionEffectType;
 
 public class LootUtils {
@@ -55,6 +56,15 @@ public class LootUtils {
         PotionEffectType type = PotionEffectType.getByName(section.getString("effect"));
         int amplifier = section.getInt("amplifier") - 1;
         return new LootablePotionEffect(identifier, type, amplifier, weight, min, max);
+    }
+
+    public static LootableEnchantment createEnchantmentLoot(ConfigurationSection section) {
+        String identifier = section.getName();
+        double weight = section.getDouble("weight");
+        double min = section.getDouble("min");
+        double max = section.getDouble("max");
+        Enchantment enchantment = EnchantUtils.getEnchantByVersion(section.getString("enchantment"));
+        return new LootableEnchantment(identifier, enchantment, weight, min, max);
     }
 
 }
