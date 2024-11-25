@@ -4,7 +4,8 @@ public enum BlockType {
 
     NONE,
     ITEMS_ADDER,
-    ORAXEN;
+    ORAXEN,
+    NEXO;
 
     public static BlockType getByName(String string) {
         for(BlockType type : values()) {
