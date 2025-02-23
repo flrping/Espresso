@@ -1,20 +1,26 @@
 package dev.flrp.espresso.table;
 
-import dev.flrp.espresso.hook.economy.EconomyType;
+import org.bukkit.enchantments.Enchantment;
 
-public class LootableEconomy implements Lootable {
+public class LootableEnchantment implements Lootable {
 
     private String identifier;
+    private Enchantment enchantment;
     private double weight;
     private double min;
     private double max;
-    private EconomyType economyType;
 
     private String message;
 
-    public LootableEconomy(String identifier, EconomyType economyType, double weight, double min, double max) {
+    public LootableEnchantment(String identifier, Enchantment enchantment, double weight) {
         this.identifier = identifier;
-        this.economyType = economyType;
+        this.enchantment = enchantment;
+        this.weight = weight;
+    }
+
+    public LootableEnchantment(String identifier, Enchantment enchantment, double weight, double min, double max) {
+        this.identifier = identifier;
+        this.enchantment = enchantment;
         this.weight = weight;
         this.min = min;
         this.max = max;
@@ -22,7 +28,7 @@ public class LootableEconomy implements Lootable {
 
     @Override
     public LootType getType() {
-        return LootType.ECONOMY;
+        return LootType.ENCHANTMENT;
     }
 
     @Override
@@ -80,27 +86,21 @@ public class LootableEconomy implements Lootable {
         return message;
     }
 
-    /**
-     * @return The economy provider.
-     */
-    public EconomyType getEconomyType() {
-        return economyType;
+    public Enchantment getEnchantment() {
+        return enchantment;
     }
 
-    /**
-     * Set the economy provider.
-     * @param economyType The economy type.
-     */
-    public void setEconomyType(EconomyType economyType) {
-        this.economyType = economyType;
+    public void setEnchantment(Enchantment enchantment) {
+        this.enchantment = enchantment;
     }
 
     @Override
-    public LootableEconomy clone() {
+    public LootableEnchantment clone() {
         try {
-            return (LootableEconomy) super.clone();
+            return (LootableEnchantment) super.clone();
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
     }
+
 }

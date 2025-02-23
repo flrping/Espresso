@@ -7,7 +7,8 @@ public enum LootType {
     ITEM,
     CUSTOM_ITEM,
     POTION,
-    COMMAND;
+    COMMAND,
+    ENCHANTMENT;
 
     public static LootType getByName(String type) {
         for(LootType lootType : LootType.values()) {

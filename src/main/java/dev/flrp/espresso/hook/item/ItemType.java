@@ -5,7 +5,8 @@ public enum ItemType {
     NONE,
     ITEMS_ADDER,
     ORAXEN,
-    MMO_ITEMS;
+    MMO_ITEMS,
+    NEXO;
 
     public static ItemType getByName(String name) {
         for (ItemType itemType : values()) {
