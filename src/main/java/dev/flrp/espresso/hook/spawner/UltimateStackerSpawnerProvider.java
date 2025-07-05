@@ -1,6 +1,6 @@
 package dev.flrp.espresso.hook.spawner;
 
-import com.craftaro.ultimatestacker.api.UltimateStackerApi;
+import com.songoda.ultimatestacker.api.UltimateStackerApi;
 import dev.flrp.espresso.Espresso;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;

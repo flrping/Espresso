@@ -1,6 +1,6 @@
 package dev.flrp.espresso.hook.spawner;
 
-import com.craftaro.epicspawners.api.EpicSpawnersApi;
+import com.songoda.epicspawners.api.EpicSpawnersApi;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 

@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class NexoItemProvider implements ItemProvider {
+
     @Override
     public String getName() {
         return "Nexo";
@@ -47,4 +48,5 @@ public class NexoItemProvider implements ItemProvider {
         if(!isEnabled()) return null;
         return NexoItems.itemFromId(itemName).build();
     }
+
 }

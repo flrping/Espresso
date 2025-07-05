@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -65,8 +66,8 @@ public class NexoBlockProvider implements BlockProvider {
 
     @Override
     public Set<String> getCustomBlockNames() {
-        if(!isEnabled()) return new HashSet<>();
-        return NexoBlocks.blockIDs();
+        if (!isEnabled()) return new HashSet<>();
+        return new HashSet<>(Arrays.asList(NexoBlocks.blockIDs()));
     }
 
     @Override

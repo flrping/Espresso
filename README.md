@@ -27,6 +27,7 @@ Espresso provides many functions for you to use in your plugin. These include:
 - Integrations with other plugins, with providers, to easily hook into a plugin for support.
 - Configuration classes to easily create and manage your plugin's configuration.
 - Message builder to distribute messages to players or locations.
+- Many different options of storage to use.
 - Various utility classes to help with your plugin's development.
 
 ## Plugin Hook List & Usage
@@ -94,8 +95,6 @@ public class MoneyOnJoin {
 }
 ```
 
-But of course it's not limited to this. Feel free to use any class on its own.
-
 The current plugins it adds hooks for are:
 - Economies
   - Vault
@@ -112,9 +111,11 @@ The current plugins it adds hooks for are:
   - ItemsAdder
   - Oraxen
   - MMOItems
+  - Nexo
 - Blocks
   - ItemsAdder
   - Oraxen
+  - Nexo
 - Spawners
   - EpicSpawners
   - UltimateStacker [3.0.0+]
@@ -126,7 +127,5 @@ The current plugins it adds hooks for are:
   - StackMob 5
   - UltimateStacker [3.0.0+]
   - RoseStacker
-
-If you do decide to use Espresso, thanks! I hope it helps you out. More functions and hooks will be available soon.
 
 

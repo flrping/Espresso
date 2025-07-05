@@ -1,7 +1,7 @@
 package dev.flrp.espresso.hook.stacker;
 
-import com.craftaro.ultimatestacker.api.UltimateStackerApi;
-import com.craftaro.ultimatestacker.api.events.entity.EntityStackKillEvent;
+import com.songoda.ultimatestacker.api.UltimateStackerApi;
+import com.songoda.ultimatestacker.api.events.entity.EntityStackKillEvent;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.plugin.Plugin;
 
