@@ -2,6 +2,7 @@ package dev.flrp.espresso.storage.query;
 
 import dev.flrp.espresso.storage.behavior.SQLStorageBehavior;
 import dev.flrp.espresso.storage.dialect.SQLStorageDialect;
+import dev.flrp.espresso.storage.exception.ProviderException;
 import dev.flrp.espresso.storage.provider.SQLStorageProvider;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class UpdateQueryBuilder {
         return this;
     }
 
-    public void execute() {
+    public void execute() throws ProviderException {
         String sql = dialect.update(table, columns, whereClause);
         List<Object> allParams = new ArrayList<>(values);
         allParams.addAll(whereParams);

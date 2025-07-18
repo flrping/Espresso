@@ -1,5 +1,7 @@
 package dev.flrp.espresso.storage.provider;
 
+import dev.flrp.espresso.storage.exception.ProviderException;
+
 import java.io.File;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -15,13 +17,13 @@ public class SQLiteStorageProvider extends SQLStorageProvider {
     }
 
     @Override
-    public void open() {
+    public void open() throws ProviderException {
         try {
             Class.forName(getDriverClass());
             connection = DriverManager.getConnection(getPathPrefix() + file);
             logger.info("[Storage] " + getName() + " connection opened.");
         } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException("[Storage] " + getName() + " failed to open connection", e);
+            throw new ProviderException("[Storage] " + getName() + " failed to open connection", e);
         }
     }
 

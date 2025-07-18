@@ -3,7 +3,12 @@ package dev.flrp.espresso.storage.provider;
 import dev.flrp.espresso.storage.behavior.SQLStorageBehavior;
 import dev.flrp.espresso.storage.behavior.StorageBehavior;
 import dev.flrp.espresso.storage.dialect.SQLStorageDialect;
+import dev.flrp.espresso.storage.exception.ProviderException;
+import dev.flrp.espresso.storage.exception.SQLConsumer;
+import dev.flrp.espresso.storage.exception.SQLFunction;
+import dev.flrp.espresso.storage.exception.SQLTransaction;
 
+import javax.annotation.Nullable;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,24 +86,24 @@ public class SQLStorageProvider implements StorageProvider, SQLStorageBehavior {
     }
 
     @Override
-    public void open() {
+    public void open() throws ProviderException {
         try {
             Class.forName(getDriverClass());
             connection = DriverManager.getConnection(getPathPrefix() + host + ":" + port + "/" + database, user, password);
             logger.info("[Storage] " + getName() + " connection opened.");
         } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException("[Storage] " + getName() + " failed to open connection", e);
+            throw new ProviderException("[Storage] " + getName() + " failed to open connection", e);
         }
     }
 
     @Override
-    public void close() {
+    public void close() throws ProviderException {
         if (connection != null) {
             try {
                 connection.close();
                 logger.info("[Storage] " + getName() + " connection closed.");
             } catch (SQLException e) {
-                throw new RuntimeException("[Storage] " + getName() + " failed to close connection", e);
+                throw new ProviderException("[Storage] " + getName() + " failed to close connection", e);
             }
         }
     }
@@ -112,50 +117,50 @@ public class SQLStorageProvider implements StorageProvider, SQLStorageBehavior {
     public boolean isConnected() {
         try {
             return connection != null && !connection.isClosed();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             return false;
         }
     }
 
     @Override
-    public void query(String query) {
+    public void query(String query) throws ProviderException {
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.execute();
-        } catch (SQLException e) {
-            throw new RuntimeException("[Storage] Failed to execute query", e);
+        } catch (Exception e) {
+            throw new ProviderException("[Storage] Failed to execute query", e);
         }
     }
 
     @Override
-    public void query(String query, List<Object> params) {
+    public void query(String query, List<Object> params) throws ProviderException {
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             for (int i = 0; i < params.size(); i++) {
                 statement.setObject(i + 1, params.get(i));
             }
             statement.execute();
-        } catch (SQLException e) {
-            throw new RuntimeException("[Storage] Failed to execute query", e);
+        } catch (Exception e) {
+            throw new ProviderException("[Storage] Failed to execute query", e);
         }
     }
 
     @Override
-    public <T> List<T> query(String query, Function<ResultSet, T> mapper) {
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            try (ResultSet rs = statement.executeQuery()) {
-                List<T> results = new ArrayList<>();
-                while (rs.next()) {
-                    results.add(mapper.apply(rs));
-                }
+    public <T> List<T> queryMap(String query, SQLFunction<ResultSet, T> mapper) throws ProviderException {
+        try (PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet rs = statement.executeQuery()) {
 
-                return results;
+            List<T> results = new ArrayList<>();
+            while (rs.next()) {
+                results.add(mapper.apply(rs));
             }
-        } catch (SQLException e) {
-            throw new RuntimeException("[Storage] Failed to execute query", e);
+            return results;
+
+        } catch (Exception e) {
+            throw new ProviderException("[Storage] Failed to execute query", e);
         }
     }
 
     @Override
-    public <T> List<T> query(String query, List<Object> params, Function<ResultSet, T> mapper) {
+    public <T> List<T> queryMap(String query, List<Object> params, SQLFunction<ResultSet, T> mapper) throws ProviderException {
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             for (int i = 0; i < params.size(); i++) {
                 statement.setObject(i + 1, params.get(i));
@@ -164,21 +169,49 @@ public class SQLStorageProvider implements StorageProvider, SQLStorageBehavior {
             try (ResultSet rs = statement.executeQuery()) {
                 List<T> results = new ArrayList<>();
                 while (rs.next()) {
-                    results.add(mapper.apply(rs));
+                    try {
+                        results.add(mapper.apply(rs));
+                    } catch (SQLException e) {
+                        throw new ProviderException("[Storage] Failed to map ResultSet", e);
+                    }
                 }
 
                 return results;
             }
-        } catch (SQLException e) {
-            throw new RuntimeException("[Storage] Failed to execute query", e);
+        } catch (Exception e) {
+            throw new ProviderException("[Storage] Failed to execute query", e);
         }
     }
 
     @Override
-    public void transaction(Runnable action) {
+    public void queryEach(String query, SQLConsumer<ResultSet> consumer) throws ProviderException {
+        try (PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet rs = statement.executeQuery()) {
+            consumer.accept(rs);
+        } catch (Exception e) {
+            throw new ProviderException("[Storage] Failed to process ResultSet", e);
+        }
+    }
+
+    @Override
+    public void queryEach(String query, List<Object> params, SQLConsumer<ResultSet> consumer) throws ProviderException {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            for (int i = 0; i < params.size(); i++) {
+                statement.setObject(i + 1, params.get(i));
+            }
+            try (ResultSet rs = statement.executeQuery()) {
+                consumer.accept(rs);
+            }
+        } catch (Exception e) {
+            throw new ProviderException("[Storage] Failed to process parameterized ResultSet", e);
+        }
+    }
+
+    @Override
+    public void transaction(SQLTransaction transaction) throws ProviderException {
         try {
             connection.setAutoCommit(false);
-            action.run();
+            transaction.run();
             connection.commit();
         } catch (Exception e) {
             try {
@@ -186,7 +219,7 @@ public class SQLStorageProvider implements StorageProvider, SQLStorageBehavior {
             } catch (SQLException rollbackEx) {
                 logger.severe("[Storage] Failed to rollback transaction: " + rollbackEx.getMessage());
             }
-            throw new RuntimeException("[Storage] Transaction failed", e);
+            throw new ProviderException("[Storage] Transaction failed", e);
         } finally {
             try {
                 connection.setAutoCommit(true);

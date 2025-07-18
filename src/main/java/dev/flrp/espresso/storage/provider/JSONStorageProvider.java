@@ -16,6 +16,7 @@ import com.google.gson.reflect.TypeToken;
 
 import dev.flrp.espresso.storage.behavior.KeyValueStorageBehavior;
 import dev.flrp.espresso.storage.behavior.StorageBehavior;
+import dev.flrp.espresso.storage.exception.ProviderException;
 
 public class JSONStorageProvider implements StorageProvider, KeyValueStorageBehavior {
 
@@ -50,24 +51,24 @@ public class JSONStorageProvider implements StorageProvider, KeyValueStorageBeha
     }
 
     @Override
-    public void open() {
+    public void open() throws ProviderException {
         if (file.exists()) {
             try (Reader reader = new FileReader(file)) {
                 Type type = new TypeToken<Map<String, Object>>() {}.getType();
                 data = gson.fromJson(reader, type);
                 logger.info("[Storage] " + getName() + " file opened.");
             } catch (IOException e) {
-                throw new RuntimeException("[Storage] Failed to load JSON", e);
+                throw new ProviderException("[Storage] Failed to load JSON", e);
             }
         }
     }
 
     @Override
-    public void close() {
+    public void close() throws ProviderException {
         try (Writer writer = new FileWriter(file)) {
             gson.toJson(data, writer);
         } catch (IOException e) {
-            throw new RuntimeException("[Storage] Failed to save JSON", e);
+            throw new ProviderException("[Storage] Failed to save JSON", e);
         }
     }
 
@@ -118,6 +119,10 @@ public class JSONStorageProvider implements StorageProvider, KeyValueStorageBeha
 
     @Override
     public void save() {
-        close();
+        try {
+            close();
+        } catch (ProviderException e) {
+            logger.warning("[Storage] Failed to save JSON: " + e.getMessage());
+        }
     }
 }

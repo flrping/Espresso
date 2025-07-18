@@ -1,16 +1,18 @@
 package dev.flrp.espresso.storage.behavior;
 
+import dev.flrp.espresso.storage.exception.ProviderException;
+
 public interface StorageBehavior {
 
     /**
      * Opens the storage connection.
      */
-    void open();
+    void open() throws ProviderException;
 
     /**
      * Closes the storage connection.
      */
-    void close();
+    void close() throws ProviderException;
 
     /**
      * Checks if the storage is connected.

@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import dev.flrp.espresso.configuration.Configuration;
 import dev.flrp.espresso.storage.behavior.KeyValueStorageBehavior;
 import dev.flrp.espresso.storage.behavior.StorageBehavior;
+import dev.flrp.espresso.storage.exception.ProviderException;
 
 public class YAMLStorageProvider implements StorageProvider, KeyValueStorageBehavior {
 
@@ -39,9 +40,13 @@ public class YAMLStorageProvider implements StorageProvider, KeyValueStorageBeha
     }
 
     @Override
-    public void open() {
-        config.load();
-        logger.info("[Storage] " + getName() + " file opened.");
+    public void open() throws ProviderException {
+        try {
+            config.load();
+            logger.info("[Storage] " + getName() + " file opened.");
+        } catch (Exception e) {
+            throw new ProviderException("[Storage] " + getName() + " failed to open file", e);
+        }
     }
 
     @Override

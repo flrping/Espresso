@@ -1,6 +1,7 @@
 package dev.flrp.espresso.storage.dialect;
 
 import dev.flrp.espresso.storage.query.SQLColumn;
+import dev.flrp.espresso.storage.query.SQLType;
 
 public class PostgreSQLStorageDialect implements SQLStorageDialect {
 
@@ -25,8 +26,10 @@ public class PostgreSQLStorageDialect implements SQLStorageDialect {
             switch (column.getType()) {
                 case INT:
                 case BOOLEAN:
-                case LONG:
                     sb.append("INTEGER");
+                    break;
+                case LONG:
+                    sb.append("BIGINT");
                     break;
                 case STRING:
                     sb.append("VARCHAR(255)");
@@ -48,13 +51,22 @@ public class PostgreSQLStorageDialect implements SQLStorageDialect {
             }
         }
 
-        if (!column.isAutoIncrement() || !column.isPrimaryKey()) {
+        if (!(column.isAutoIncrement() && column.isPrimaryKey())) {
             if (column.isPrimaryKey()) sb.append(" PRIMARY KEY");
             if (column.isUnique()) sb.append(" UNIQUE");
             if (column.isNotNull()) sb.append(" NOT NULL");
-            if (column.getDefaultValue() != null) sb.append(" DEFAULT ").append(column.getDefaultValue());
-            if (column.getCheckConstraint() != null)
-                sb.append(" CHECK (").append(column.getCheckConstraint()).append(")");
+            if (column.getDefaultValue() != null) {
+                String defaultValue = column.getDefaultValue();
+                boolean isSQLFunction = defaultValue.matches("(?i)^CURRENT_(DATE|TIME|TIMESTAMP)$");
+                boolean isString = column.getType() == SQLType.STRING;
+
+                if (isString && !isSQLFunction && !(defaultValue.startsWith("'") && defaultValue.endsWith("'"))) {
+                    defaultValue = "'" + defaultValue + "'";
+                }
+
+                sb.append(" DEFAULT ").append(defaultValue);
+            }
+            if (column.getCheckConstraint() != null) sb.append(" CHECK (").append(column.getCheckConstraint()).append(")");
         }
 
         return sb.toString();

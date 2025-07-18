@@ -1,5 +1,6 @@
 package dev.flrp.espresso.storage;
 
+import dev.flrp.espresso.storage.exception.ProviderException;
 import dev.flrp.espresso.storage.provider.SQLiteStorageProvider;
 import dev.flrp.espresso.storage.query.*;
 import org.junit.jupiter.api.AfterAll;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -18,26 +20,33 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SQLiteStorageProviderTest {
 
     private SQLiteStorageProvider provider;
+    private final Logger logger = Logger.getLogger("TestLogger");
     private File tempFile;
 
     @BeforeAll
-    void setup() throws Exception {
-        Logger logger = Logger.getLogger("TestLogger");
+    void setup() {
+        try {
+            tempFile = File.createTempFile("test", ".db");
+            provider = new SQLiteStorageProvider(logger, tempFile);
+            provider.open();
 
-        tempFile = File.createTempFile("test", ".db");
-        provider = new SQLiteStorageProvider(logger, tempFile);
-        provider.open();
-
-        List<SQLColumn> columns = new ArrayList<>();
-        columns.add(new SQLColumn("id", SQLType.INT).primaryKey().autoIncrement());
-        columns.add(new SQLColumn("name", SQLType.STRING));
-        String query = provider.getDialect().createTable("test", columns);
-        provider.query(query);
+            List<SQLColumn> columns = new ArrayList<>();
+            columns.add(new SQLColumn("id", SQLType.INT).primaryKey().autoIncrement());
+            columns.add(new SQLColumn("name", SQLType.STRING));
+            String query = provider.getDialect().createTable("test", columns);
+            provider.query(query);
+        } catch (IOException | ProviderException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @AfterAll
     void cleanup() {
-        provider.close();
+        try {
+            provider.close();
+        } catch (ProviderException e) {
+            throw new RuntimeException(e);
+        }
         tempFile.delete();
     }
 
@@ -48,74 +57,83 @@ public class SQLiteStorageProviderTest {
 
     @Test
     void testInsertAndSelect() {
-        InsertQueryBuilder queryBuilder = new InsertQueryBuilder("test", provider);
-        queryBuilder.column("name", "Espresso");
-        queryBuilder.execute();
+        try {
+            InsertQueryBuilder queryBuilder = new InsertQueryBuilder("test", provider);
+            queryBuilder.column("name", "Espresso").execute();
 
-        SelectQueryBuilder selectQueryBuilder = new SelectQueryBuilder("test", provider);
-        selectQueryBuilder.columns("name");
-        List<String> names = provider.query(selectQueryBuilder.build(), rs -> {
-            try {
-                return rs.getString("name");
-            } catch (Exception e) {
-                return null;
-            }
-        });
+            SelectQueryBuilder selectQueryBuilder = new SelectQueryBuilder("test", provider);
+            selectQueryBuilder.columns("name");
+            List<String> names = provider.queryMap(selectQueryBuilder.build(), rs -> rs.getString("name"));
 
-        assertFalse(names.isEmpty());
-        assertEquals("Espresso", names.get(0));
+            assertFalse(names.isEmpty());
+            assertEquals("Espresso", names.get(0));
 
-        DeleteQueryBuilder deleteQueryBuilder = new DeleteQueryBuilder("test", provider);
-        deleteQueryBuilder.execute();
+            DeleteQueryBuilder deleteQueryBuilder = new DeleteQueryBuilder("test", provider);
+            deleteQueryBuilder.execute();
+        } catch (ProviderException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
     void testTransactionRollback() {
-        DeleteQueryBuilder deleteQueryBuilder = new DeleteQueryBuilder("test", provider);
-        deleteQueryBuilder.execute();
-
         try {
+            DeleteQueryBuilder deleteQueryBuilder = new DeleteQueryBuilder("test", provider);
+            deleteQueryBuilder.execute();
             provider.transaction(() -> {
                 InsertQueryBuilder queryBuilder = new InsertQueryBuilder("test", provider);
-                queryBuilder.column("name", "ShouldFail");
-                provider.query(queryBuilder.build());
+                queryBuilder.column("name", "ShouldFail").execute();
                 throw new RuntimeException("Fail transaction");
             });
-        } catch (Exception ignored) {}
+        } catch (ProviderException e) {
+            logger.severe(e.getMessage());
+        }
 
         SelectQueryBuilder selectQueryBuilder = new SelectQueryBuilder("test", provider);
         selectQueryBuilder.columns("name");
-        List<String> names = provider.query(selectQueryBuilder.build(), rs -> {
-            try {
-                return rs.getString("name");
-            } catch (Exception e) {
-                return null;
-            }
-        });
+        List<String> names;
+        try {
+            names = provider.queryMap(selectQueryBuilder.build(), rs -> rs.getString("name"));
+        } catch (ProviderException e) {
+            throw new RuntimeException(e);
+        }
 
         assertTrue(names.isEmpty());
     }
 
     @Test
     void testTransactionCommit() {
-        provider.transaction(() -> {
-            InsertQueryBuilder queryBuilder = new InsertQueryBuilder("test", provider);
-            queryBuilder.column("name", "Committed");
-            queryBuilder.execute();
-        });
+        try {
+            provider.transaction(() -> {
+                InsertQueryBuilder queryBuilder = new InsertQueryBuilder("test", provider);
+                queryBuilder.column("name", "Committed").execute();
+            });
 
-        SelectQueryBuilder selectQueryBuilder = new SelectQueryBuilder("test", provider);
-        selectQueryBuilder.columns("name");
-        List<String> names = provider.query(selectQueryBuilder.build(), rs -> {
-            try {
-                return rs.getString("name");
-            } catch (Exception e) {
-                return null;
-            }
-        });
+            SelectQueryBuilder selectQueryBuilder = new SelectQueryBuilder("test", provider);
+            selectQueryBuilder.columns("name");
+            List<String> names = provider.queryMap(selectQueryBuilder.build(), rs -> rs.getString("name"));
 
-        DeleteQueryBuilder deleteQueryBuilder = new DeleteQueryBuilder("test", provider);
-        deleteQueryBuilder.execute();
+            assertFalse(names.isEmpty());
+            assertEquals("Committed", names.get(0));
+
+            DeleteQueryBuilder deleteQueryBuilder = new DeleteQueryBuilder("test", provider);
+            deleteQueryBuilder.execute();
+        } catch (ProviderException e) {
+            logger.severe(e.getMessage());
+        }
     }
 
+    @Test
+    void testTableWithDateDefault() {
+        List<SQLColumn> columns = new ArrayList<>();
+        columns.add(new SQLColumn("id", SQLType.INT).primaryKey().autoIncrement());
+        columns.add(new SQLColumn("name", SQLType.STRING));
+        columns.add(new SQLColumn("date", SQLType.DATE).defaultValue("CURRENT_DATE"));
+
+        try {
+            provider.query(provider.getDialect().createTable("date", columns));
+        } catch (ProviderException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

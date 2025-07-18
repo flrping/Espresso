@@ -60,16 +60,15 @@ public class SQLiteStorageDialect implements SQLStorageDialect {
 
         if (column.isUnique()) sb.append(" UNIQUE");
         if (column.isNotNull()) sb.append(" NOT NULL");
-
         if (column.getDefaultValue() != null) {
-            boolean isString = column.getType() == SQLType.STRING;
             String defaultValue = column.getDefaultValue();
-            if (isString && !(defaultValue.startsWith("'") && defaultValue.endsWith("'"))) {
+            boolean isString = column.getType() == SQLType.STRING;
+            boolean isSQLFunction = defaultValue.matches("(?i)CURRENT_(DATE|TIME|TIMESTAMP)");
+            if (isString && !isSQLFunction && !(defaultValue.startsWith("'") && defaultValue.endsWith("'"))) {
                 defaultValue = "'" + defaultValue + "'";
             }
             sb.append(" DEFAULT ").append(defaultValue);
         }
-
         if (column.getCheckConstraint() != null) sb.append(" CHECK (").append(column.getCheckConstraint()).append(")");
 
         return sb.toString();

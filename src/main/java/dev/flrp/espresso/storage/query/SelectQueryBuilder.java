@@ -2,6 +2,7 @@ package dev.flrp.espresso.storage.query;
 
 import dev.flrp.espresso.storage.behavior.SQLStorageBehavior;
 import dev.flrp.espresso.storage.dialect.SQLStorageDialect;
+import dev.flrp.espresso.storage.exception.ProviderException;
 import dev.flrp.espresso.storage.provider.SQLStorageProvider;
 
 import java.util.ArrayList;
@@ -80,7 +81,7 @@ public class SelectQueryBuilder {
         return whereParams;
     }
 
-    public void execute() {
+    public void execute() throws ProviderException {
         String sql = build();
         behavior.query(sql, whereParams);
     }
