@@ -25,8 +25,14 @@ public interface KeyValueStorageBehavior extends StorageBehavior {
      */
     <T> T get(String key, Class<T> type);
 
+    /**
+     * Gets all key-value pairs in the storage.
+     */
     Map<String, Object> getAll();
 
+    /**
+     * Sets multiple key-value pairs in the storage.
+     */
     void setAll(Map<String, Object> values);
 
     /**
@@ -39,6 +45,9 @@ public interface KeyValueStorageBehavior extends StorageBehavior {
      */
     void remove(String key);
 
+    /**
+     * Saves the current state of the storage.
+     */
     void save();
 
 }

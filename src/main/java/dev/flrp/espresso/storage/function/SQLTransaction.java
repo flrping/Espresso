@@ -1,7 +1,9 @@
-package dev.flrp.espresso.storage.exception;
+package dev.flrp.espresso.storage.function;
 
 @FunctionalInterface
 public interface SQLTransaction {
+
     void run() throws Exception;
+
 }
 

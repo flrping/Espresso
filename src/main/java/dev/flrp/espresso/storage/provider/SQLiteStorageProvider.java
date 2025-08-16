@@ -16,6 +16,9 @@ public class SQLiteStorageProvider extends SQLStorageProvider {
         this.file = file;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void open() throws ProviderException {
         try {

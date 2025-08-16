@@ -1,17 +1,24 @@
 package dev.flrp.espresso.storage.behavior;
 
 import dev.flrp.espresso.storage.exception.ProviderException;
-import dev.flrp.espresso.storage.exception.SQLConsumer;
-import dev.flrp.espresso.storage.exception.SQLFunction;
-import dev.flrp.espresso.storage.exception.SQLTransaction;
+import dev.flrp.espresso.storage.function.SQLConsumer;
+import dev.flrp.espresso.storage.function.SQLFunction;
+import dev.flrp.espresso.storage.function.SQLTransaction;
+import dev.flrp.espresso.storage.query.QueryBuilder;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 
-
 public interface SQLStorageBehavior extends StorageBehavior {
+
+    /**
+     * Opens the storage connection with specific options.
+     * @param connectionUri The connection URI or options to open the storage.
+     * @throws ProviderException If an error occurs while opening the storage.
+     */
+    void open(String connectionUri) throws ProviderException;
 
     /**
      * Get the driver class.
@@ -45,6 +52,12 @@ public interface SQLStorageBehavior extends StorageBehavior {
     void query(String query, List<Object> params) throws ProviderException;
 
     /**
+     * Run a query on the database with a query builder.
+     * @param builder The query to run.
+     */
+    void query(QueryBuilder builder) throws ProviderException;
+
+    /**
      * Run a query on the database and map the result set to a list of objects. This is a high level abstraction that automatically
      * iterates over the result set and maps each row to an object. You do not need to call {@link ResultSet#next()} or
      * {@link ResultSet#close()} manually.
@@ -57,7 +70,7 @@ public interface SQLStorageBehavior extends StorageBehavior {
     <T> List<T> queryMap(String query, SQLFunction<ResultSet, T> mapper) throws ProviderException;
 
     /**
-     * Run a query on the database and map the result set to a list of objects. This is a high level abstraction that automatically
+     * Run a query on the database with parameters and map the result set to a list of objects. This is a high level abstraction that automatically
      * iterates over the result set and maps each row to an object. You do not need to call {@link ResultSet#next()} or
      * {@link ResultSet#close()} manually.
      *
@@ -68,6 +81,19 @@ public interface SQLStorageBehavior extends StorageBehavior {
      * @return The list of objects.
      */
     <T> List<T> queryMap(String query, List<Object> params, SQLFunction<ResultSet, T> mapper) throws ProviderException;
+
+
+    /**
+     * Run a query on the database with a query builder and map the result set to a list of objects. This is a high level abstraction that automatically
+     * iterates over the result set and maps each row to an object. You do not need to call {@link ResultSet#next()} or
+     * {@link ResultSet#close()} manually.
+     *
+     * @param builder The query to run.
+     * @param mapper The mapper to use to map the result set to a list of objects.
+     * @throws ProviderException If the query or processing fails.
+     * @return The list of objects.
+     */
+    <T> List<T> queryMap(QueryBuilder builder, SQLFunction<ResultSet, T> mapper) throws ProviderException;
 
     /**
      * Run a query on the database and expose the raw {@link ResultSet} to the caller.
@@ -93,6 +119,21 @@ public interface SQLStorageBehavior extends StorageBehavior {
      * @throws ProviderException If the query or processing fails.
      */
     void queryEach(String query, List<Object> params, SQLConsumer<ResultSet> consumer) throws ProviderException;
+
+
+    /**
+     * Run a query on the database with a query builder and expose the raw {@link ResultSet} to the caller.
+     * This is a low-level abstraction that gives full control over iteration and reading.
+     *
+     * <p>Unlike {@link #queryMap(String, SQLFunction)} or its parameterized variant, this method does not handle row iteration.
+     * You must call {@link ResultSet#next()} manually and handle any mapping logic yourself.
+     * The {@link ResultSet} and {@link PreparedStatement} are automatically closed after the consumer runs.</p>
+     *
+     * @param builder The query to run.
+     * @param consumer A consumer that receives the raw {@link ResultSet} to iterate and process as needed.
+     * @throws ProviderException If the query or processing fails.
+     */
+    void queryEach(QueryBuilder builder, SQLConsumer<ResultSet> consumer) throws ProviderException;
 
     /**
      * Run a transaction on the database.

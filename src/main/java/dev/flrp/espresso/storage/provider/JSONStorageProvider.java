@@ -30,26 +30,41 @@ public class JSONStorageProvider implements StorageProvider, KeyValueStorageBeha
         this.logger = logger;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getName() {
         return "JSON";
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public StorageType getType() {
         return StorageType.JSON;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public StorageBehavior getBehavior() {
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean hasStorage() {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void open() throws ProviderException {
         if (file.exists()) {
@@ -63,6 +78,9 @@ public class JSONStorageProvider implements StorageProvider, KeyValueStorageBeha
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void close() throws ProviderException {
         try (Writer writer = new FileWriter(file)) {
@@ -72,51 +90,81 @@ public class JSONStorageProvider implements StorageProvider, KeyValueStorageBeha
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isConnected() {
         return file.exists();
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public File getFile() {
         return file;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void set(String key, Object value) {
         data.put(key, value);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Object get(String key) {
         return data.get(key);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <T> T get(String key, Class<T> type) {
         return type.cast(data.get(key));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Map<String, Object> getAll() {
         return new HashMap<>(data);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setAll(Map<String, Object> values) {
         data.putAll(values);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean has(String key) {
         return data.containsKey(key);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void remove(String key) {
         data.remove(key);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void save() {
         try {

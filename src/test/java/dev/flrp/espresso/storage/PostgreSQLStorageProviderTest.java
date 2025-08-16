@@ -1,29 +1,32 @@
 package dev.flrp.espresso.storage;
 
-import dev.flrp.espresso.storage.exception.ProviderException;
-import dev.flrp.espresso.storage.provider.SQLStorageProvider;
-import dev.flrp.espresso.storage.provider.StorageType;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
 import dev.flrp.espresso.storage.query.*;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
+import dev.flrp.espresso.storage.dialect.PostgreSQLStorageDialect;
+import dev.flrp.espresso.storage.exception.ProviderException;
+import dev.flrp.espresso.storage.provider.SQLStorageProvider;
+import dev.flrp.espresso.storage.provider.StorageType;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @Testcontainers
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class PostgreSQLStorageProviderTest {
+class PostgreSQLStorageProviderTest {
 
     @Container
-    private static final PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:16")
+    private static final PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:16")
             .withDatabaseName("test")
             .withUsername("test")
             .withPassword("test")
@@ -33,37 +36,54 @@ public class PostgreSQLStorageProviderTest {
     private final Logger logger = Logger.getLogger("TestLogger");
 
     @BeforeAll
-    void setup() {
-        Logger logger = Logger.getLogger("TestLogger");
-        String host = postgresContainer.getHost();
-        int port = postgresContainer.getMappedPort(5432);
-        String database = postgresContainer.getDatabaseName();
-        String user = postgresContainer.getUsername();
-        String password = postgresContainer.getPassword();
+    void setup() throws ProviderException {
+        String host = container.getHost();
+        int port = container.getMappedPort(5432);
+        String database = container.getDatabaseName();
+        String user = container.getUsername();
+        String password = container.getPassword();
 
         provider = new SQLStorageProvider(logger, host, port, database, user, password, StorageType.POSTGRESQL);
-        try {
-            provider.open();
+        provider.open();
 
-            List<SQLColumn> columns = new ArrayList<>();
-            columns.add(new SQLColumn("id", SQLType.INT).primaryKey().autoIncrement());
-            columns.add(new SQLColumn("name", SQLType.STRING));
-            String query = provider.getDialect().createTable("test", columns);
-            provider.query(query);
-        } catch (ProviderException e) {
-            logger.severe(e.getMessage());
-        }
+        List<String> jobs = new ArrayList<>();
+        jobs.add("IT");
+        jobs.add("HR");
+        jobs.add("Sales");
+        String enumTypes = ((PostgreSQLStorageDialect) provider.getDialect()).createEnumTypes("department", jobs);
+        provider.query(enumTypes);
+
+        List<SQLColumn> columns = new ArrayList<>();
+        columns.add(new SQLColumn("id", ColumnType.INT)
+                .primaryKey()
+                .autoIncrement());
+        columns.add(new SQLColumn("name", ColumnType.STRING)
+                .notNull());
+        columns.add(new SQLColumn("age", ColumnType.INT)
+                .defaultValue("20")
+                .notNull());
+        columns.add(new SQLColumn("job", ColumnType.ENUM, "department"));
+        columns.add(new SQLColumn("created_at", ColumnType.TIMESTAMP)
+                .defaultValue("CURRENT_TIMESTAMP")
+                .notNull());
+        columns.add(new SQLColumn("updated_at", ColumnType.TIMESTAMP)
+                .defaultValue("CURRENT_TIMESTAMP")
+                .notNull());
+
+        String query = provider.getDialect().createTable("test", columns);
+
+        provider.query(query);
     }
 
     @AfterAll
-    void cleanup() {
-        try {
-            provider.query(provider.getDialect().dropTable("test"));
-            provider.query(provider.getDialect().dropTable("date"));
-            provider.close();
-        } catch (ProviderException e) {
-            Logger.getLogger("TestLogger").severe(e.getMessage());
-        }
+    void cleanup() throws ProviderException {
+        provider.query(provider.getDialect().dropTable("test"));
+        provider.close();
+    }
+
+    @BeforeEach
+    void resetTable() throws ProviderException {
+        provider.query(DeleteQueryBuilder.with("test", provider));
     }
 
     @Test
@@ -72,84 +92,206 @@ public class PostgreSQLStorageProviderTest {
     }
 
     @Test
-    void testInsertAndSelect() {
-        try {
-            InsertQueryBuilder queryBuilder = new InsertQueryBuilder("test", provider);
-            queryBuilder.column("name", "Espresso").execute();
+    void testAllQueriesWithBuild() throws ProviderException {
+        // Insert
+        InsertQueryBuilder.with("test", provider)
+                .column("id", 1)
+                .column("name", "Espresso")
+                .column("age", 20)
+                .column("job", "IT", "department")
+                .execute();
 
-            SelectQueryBuilder selectQueryBuilder = new SelectQueryBuilder("test", provider);
-            selectQueryBuilder.columns("name");
-            List<String> names = provider.queryMap(selectQueryBuilder.build(), rs -> rs.getString("name"));
+        // Update
+        UpdateQueryBuilder.with("test", provider)
+                .set("name", "Espresso")
+                .where("age = ?", 20)
+                .execute();
 
-            assertFalse(names.isEmpty());
-            assertEquals("Espresso", names.get(0));
+        // Upsert
+        UpsertQueryBuilder.with("test", provider)
+                .column("id", 1)
+                .column("name", "Espresso")
+                .column("age", 22)
+                .column("job", "Sales", "department")
+                .conflict("id")
+                .execute();
 
-            DeleteQueryBuilder deleteQueryBuilder = new DeleteQueryBuilder("test", provider);
-            deleteQueryBuilder.execute();
-        } catch (ProviderException e) {
-            logger.severe(e.getMessage());
-        }
-    }
+        // Select
+        List<TestEmployee> employees = provider.queryMap(
+                SelectQueryBuilder.with("test", provider).columns("*").build(),
+                rs -> new TestEmployee(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getInt("age"),
+                        rs.getString("job"),
+                        rs.getTimestamp("created_at"),
+                        rs.getTimestamp("updated_at")));
 
-    @Test
-    void testTransactionRollback() {
-        try {
-            DeleteQueryBuilder deleteQueryBuilder = new DeleteQueryBuilder("test", provider);
-            deleteQueryBuilder.execute();
-            provider.transaction(() -> {
-                InsertQueryBuilder queryBuilder = new InsertQueryBuilder("test", provider);
-                queryBuilder.column("name", "ShouldFail").execute();
-                throw new RuntimeException("Fail transaction");
-            });
-        } catch (ProviderException e) {
-            logger.severe(e.getMessage());
-        }
+        TestEmployee employee = employees.get(0);
+        assertEquals(1, employees.size());
+        assertEquals("Espresso", employee.name);
+        assertEquals(22, employee.age);
+        assertEquals("Sales", employee.department);
 
-        SelectQueryBuilder selectQueryBuilder = new SelectQueryBuilder("test", provider);
-        selectQueryBuilder.columns("name");
-        List<String> names;
-        try {
-            names = provider.queryMap(selectQueryBuilder.build(), rs -> rs.getString("name"));
-        } catch (ProviderException e) {
-            throw new RuntimeException(e);
-        }
+        // Delete
+        DeleteQueryBuilder.with("test", provider)
+                .where("name = ?", employee.name)
+                .execute();
 
+        // Verify empty
+        List<String> names = provider.queryMap(
+                SelectQueryBuilder.with("test", provider).columns("*").build(), rs -> rs.getString("name"));
         assertTrue(names.isEmpty());
     }
 
     @Test
-    void testTransactionCommit() {
-        try {
-            provider.transaction(() -> {
-                InsertQueryBuilder queryBuilder = new InsertQueryBuilder("test", provider);
-                queryBuilder.column("name", "Committed").execute();
-            });
+    void testAllQueriesWithParameters() throws ProviderException {
+        // Insert
+        InsertQueryBuilder insert = InsertQueryBuilder.with("test", provider)
+                .column("id", 1)
+                .column("name", "Espresso")
+                .column("age", 20)
+                .column("job", "IT", "department");
+        provider.query(insert.build(), insert.getParameters());
 
-            SelectQueryBuilder selectQueryBuilder = new SelectQueryBuilder("test", provider);
-            selectQueryBuilder.columns("name");
-            List<String> names = provider.queryMap(selectQueryBuilder.build(), rs -> rs.getString("name"));
+        // Update
+        UpdateQueryBuilder update = UpdateQueryBuilder.with("test", provider)
+                .set("name", "Espresso")
+                .where("age = ?", 20);
+        provider.query(update.build(), update.getParameters());
 
-            assertFalse(names.isEmpty());
-            assertEquals("Committed", names.get(0));
+        // Upsert
+        UpsertQueryBuilder upsert = UpsertQueryBuilder.with("test", provider)
+                .column("id", 1)
+                .column("name", "Espresso")
+                .column("age", 22)
+                .column("job", "Sales", "department")
+                .conflict("id");
+        provider.query(upsert.build(), upsert.getParameters());
 
-            DeleteQueryBuilder deleteQueryBuilder = new DeleteQueryBuilder("test", provider);
-            deleteQueryBuilder.execute();
-        } catch (ProviderException e) {
-            logger.severe(e.getMessage());
-        }
+        // Select
+        List<TestEmployee> employees = provider.queryMap(
+                SelectQueryBuilder.with("test", provider).columns("*").build(),
+                rs -> new TestEmployee(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getInt("age"),
+                        rs.getString("job"),
+                        rs.getTimestamp("created_at"),
+                        rs.getTimestamp("updated_at")));
+
+        TestEmployee employee = employees.get(0);
+        assertEquals(1, employees.size());
+        assertEquals("Espresso", employee.name);
+        assertEquals(22, employee.age);
+        assertEquals("Sales", employee.department);
+
+        // Select with condition
+        SelectQueryBuilder conditional = SelectQueryBuilder.with("test", provider)
+                .columns("name")
+                .where("age > ?", 20);
+        List<String> names = provider.queryMap(
+                conditional.build(),
+                conditional.getParameters(),
+                rs -> rs.getString("name"));
+
+        assertEquals(1, names.size());
+        assertEquals("Espresso", names.get(0));
+
+        // Delete
+        DeleteQueryBuilder delete = DeleteQueryBuilder.with("test", provider).where("name = ?", employee.name);
+        provider.query(delete.build(), delete.getParameters());
+
+        // Verify empty
+        List<String> cleared = provider.queryMap(
+                SelectQueryBuilder.with("test", provider).columns("*").build(), rs -> rs.getString("name")
+        );
+        assertTrue(cleared.isEmpty());
     }
 
     @Test
-    void testTableWithDateDefault() {
-        List<SQLColumn> columns = new ArrayList<>();
-        columns.add(new SQLColumn("id", SQLType.INT).primaryKey().autoIncrement());
-        columns.add(new SQLColumn("name", SQLType.STRING));
-        columns.add(new SQLColumn("date", SQLType.DATE).defaultValue("CURRENT_DATE"));
+    void testAllQueriesWithBuilder() throws ProviderException {
+        // Insert
+        InsertQueryBuilder insert = InsertQueryBuilder.with("test", provider)
+                .column("id", 1)
+                .column("name", "Espresso")
+                .column("age", 20)
+                .column("job", "IT", "department");
+        provider.query(insert);
 
-        try {
-            provider.query(provider.getDialect().createTable("date", columns));
-        } catch (ProviderException e) {
-            throw new RuntimeException(e);
-        }
+        // Update
+        UpdateQueryBuilder update = UpdateQueryBuilder.with("test", provider)
+                .set("name", "Espresso")
+                .where("age = ?", 20);
+        provider.query(update);
+
+        // Upsert
+        UpsertQueryBuilder upsert = UpsertQueryBuilder.with("test", provider)
+                .column("id", 1)
+                .column("name", "Espresso")
+                .column("age", 22)
+                .column("job", "Sales", "department")
+                .conflict("id");
+        provider.query(upsert);
+
+        // Select
+        List<TestEmployee> employees = provider.queryMap(
+                SelectQueryBuilder.with("test", provider).columns("*"),
+                rs -> new TestEmployee(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getInt("age"),
+                        rs.getString("job"),
+                        rs.getTimestamp("created_at"),
+                        rs.getTimestamp("updated_at")));
+
+        TestEmployee employee = employees.get(0);
+        assertEquals(1, employees.size());
+        assertEquals("Espresso", employee.name);
+        assertEquals(22, employee.age);
+        assertEquals("Sales", employee.department);
+
+        // Delete
+        DeleteQueryBuilder delete = DeleteQueryBuilder.with("test", provider).where("name = ?", employee.name);
+        provider.query(delete);
+
+        // Verify empty
+        List<String> cleared = provider.queryMap(
+                SelectQueryBuilder.with("test", provider).columns("*"), rs -> rs.getString("name")
+        );
+        assertTrue(cleared.isEmpty());
+    }
+
+    @Test
+    void testAllExecutionNotAllowed() {
+        // Insert
+        InsertQueryBuilder insert = InsertQueryBuilder.with("test", provider.getType())
+                .column("id", 1)
+                .column("name", "Espresso")
+                .column("age", 20)
+                .column("job", "IT", "department");
+        assertThrows(UnsupportedOperationException.class, insert::execute);
+
+        // Upsert
+        UpsertQueryBuilder upsert = UpsertQueryBuilder.with("test", provider.getType())
+                .column("id", 1)
+                .column("name", "Espresso")
+                .column("age", 22)
+                .column("job", "Sales", "department")
+                .conflict("id");
+        assertThrows(UnsupportedOperationException.class, upsert::execute);
+
+        // Update
+        UpdateQueryBuilder update = UpdateQueryBuilder.with("test", provider.getType())
+                .set("name", "Espresso")
+                .where("age = ?", 20);
+        assertThrows(UnsupportedOperationException.class, update::execute);
+
+        // Delete
+        DeleteQueryBuilder delete = DeleteQueryBuilder.with("test", provider.getType())
+                .where("name = ?", "Espresso");
+        assertThrows(UnsupportedOperationException.class, delete::execute);
+
+        // Select does not have any execution methods.
     }
 }

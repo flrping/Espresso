@@ -1,9 +1,9 @@
 package dev.flrp.espresso.storage.dialect;
 
+import dev.flrp.espresso.storage.query.ColumnType;
 import dev.flrp.espresso.storage.query.SQLColumn;
 
 public interface StorageDialect {
-
 
     /**
      * Creates a SQL string for auto incrementing a column.
@@ -27,5 +27,11 @@ public interface StorageDialect {
      * @return A SQL string for the column definition.
      */
     String columnDefinition(SQLColumn column);
+
+    /**
+     * Returns if the column type is supported by the dialect.
+     * @return true if the column type is supported, false otherwise.
+     */
+    boolean supports(ColumnType columnType);
 
 }
