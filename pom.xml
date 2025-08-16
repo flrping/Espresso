@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>dev.flrp</groupId>
-    <artifactId>Espresso</artifactId>
+    <artifactId>espresso</artifactId>
     <version>1.4.0</version>
     <packaging>jar</packaging>
 
@@ -433,7 +433,7 @@
         <repository>
             <id>github</id>
             <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/flrping/Espresso</url>
+            <url>https://maven.pkg.github.com/flrping/espresso</url>
         </repository>
     </distributionManagement>
 
