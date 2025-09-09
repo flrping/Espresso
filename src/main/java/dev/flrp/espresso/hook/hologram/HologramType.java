@@ -3,7 +3,8 @@ package dev.flrp.espresso.hook.hologram;
 public enum HologramType {
 
     NONE,
-    DECENT_HOLOGRAMS;
+    DECENT_HOLOGRAMS,
+    CMI;
 
     public static HologramType getByName(String name) {
         for (HologramType hologramType : values()) {
