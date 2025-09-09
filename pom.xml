@@ -370,6 +370,12 @@
             <artifactId>CMI-API</artifactId>
             <version>9.7.14.3</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.Zrips</groupId>
+            <artifactId>CMILib</artifactId>
+            <version>1.5.4.6</version>
+            <scope>provided</scope>
+        </dependency>
 
 
         <!-- Test Dependencies -->
