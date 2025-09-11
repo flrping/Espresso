@@ -24,6 +24,9 @@ public class CMIHologramProvider implements HologramProvider {
 
         CMIHologram hologram = new CMIHologram(id, spawnLocation);
         hologram.setLines(linesList);
+
+        CMI.getInstance().getHologramManager().addHologram(hologram);
+        hologram.update();
     }
 
     @Override
@@ -32,6 +35,9 @@ public class CMIHologramProvider implements HologramProvider {
 
         CMIHologram hologram = new CMIHologram(id, spawnLocation);
         hologram.setLines(lines);
+
+        CMI.getInstance().getHologramManager().addHologram(hologram);
+        hologram.update();
     }
 
     @Override
@@ -39,6 +45,7 @@ public class CMIHologramProvider implements HologramProvider {
         if(!exists(id)) return;
         CMIHologram hologram = CMI.getInstance().getHologramManager().getHolograms().get(id);
         hologram.moveTo(location);
+        hologram.refresh();
     }
 
     @Override
@@ -56,6 +63,7 @@ public class CMIHologramProvider implements HologramProvider {
         if(line < 0 || line >= lines.size()) return;
         lines.set(line, text);
         hologram.setLines(lines);
+        hologram.refresh();
     }
 
     @Override
