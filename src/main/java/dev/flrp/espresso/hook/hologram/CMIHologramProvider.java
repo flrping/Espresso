@@ -4,11 +4,16 @@ import com.Zrips.CMI.CMI;
 import com.Zrips.CMI.Modules.Holograms.CMIHologram;
 import org.bukkit.Location;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class CMIHologramProvider implements HologramProvider {
+
+    private final Set<String> hologramIDs = new HashSet<>();
+
+    @Override
+    public String getName() {
+        return "CMI";
+    }
 
     @Override
     public HologramType getType() {
@@ -26,6 +31,7 @@ public class CMIHologramProvider implements HologramProvider {
         hologram.setLines(linesList);
 
         CMI.getInstance().getHologramManager().addHologram(hologram);
+        hologramIDs.add(id);
         hologram.update();
     }
 
@@ -37,6 +43,7 @@ public class CMIHologramProvider implements HologramProvider {
         hologram.setLines(lines);
 
         CMI.getInstance().getHologramManager().addHologram(hologram);
+        hologramIDs.add(id);
         hologram.update();
     }
 
@@ -53,6 +60,7 @@ public class CMIHologramProvider implements HologramProvider {
         if(!exists(id)) return;
         CMIHologram hologram = CMI.getInstance().getHologramManager().getHolograms().get(id);
         hologram.remove();
+        hologramIDs.remove(id);
     }
 
     @Override
@@ -68,21 +76,13 @@ public class CMIHologramProvider implements HologramProvider {
 
     @Override
     public void removeHolograms() {
-        if (!isEnabled()) return;
-        for(CMIHologram hologram : CMI.getInstance().getHologramManager().getHolograms().values()) {
-            hologram.remove();
-        }
+        hologramIDs.forEach(this::removeHologram);
     }
 
     @Override
     public boolean exists(String id) {
         if(!isEnabled()) return false;
         return CMI.getInstance().getHologramManager().getHolograms().containsKey(id);
-    }
-
-    @Override
-    public String getName() {
-        return "CMI";
     }
 
 }

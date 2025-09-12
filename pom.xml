@@ -364,7 +364,6 @@
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver-sync</artifactId>
             <version>5.5.1</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.Zrips</groupId>
