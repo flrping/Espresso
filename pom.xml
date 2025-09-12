@@ -6,13 +6,13 @@
 
     <groupId>dev.flrp</groupId>
     <artifactId>espresso</artifactId>
-    <version>1.4.0</version>
+    <version>1.5.0</version>
     <packaging>jar</packaging>
 
     <name>Espresso</name>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -159,7 +159,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.20.6-R0.1-SNAPSHOT</version>
+            <version>1.21.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -351,7 +351,7 @@
         <dependency>
             <groupId>com.nexomc</groupId>
             <artifactId>nexo</artifactId>
-            <version>1.7.3</version>
+            <version>1.10.0</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
@@ -365,6 +365,19 @@
             <artifactId>mongodb-driver-sync</artifactId>
             <version>5.5.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.Zrips</groupId>
+            <artifactId>CMI-API</artifactId>
+            <version>9.7.14.3</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.Zrips</groupId>
+            <artifactId>CMILib</artifactId>
+            <version>1.5.4.6</version>
+            <scope>provided</scope>
+        </dependency>
+
 
         <!-- Test Dependencies -->
         <dependency>

@@ -1,0 +1,88 @@
+package dev.flrp.espresso.hook.hologram;
+
+import com.Zrips.CMI.CMI;
+import com.Zrips.CMI.Modules.Holograms.CMIHologram;
+import org.bukkit.Location;
+
+import java.util.*;
+
+public class CMIHologramProvider implements HologramProvider {
+
+    private final Set<String> hologramIDs = new HashSet<>();
+
+    @Override
+    public String getName() {
+        return "CMI";
+    }
+
+    @Override
+    public HologramType getType() {
+        return HologramType.CMI;
+    }
+
+    @Override
+    public void createHologram(String id, Location location, String... lines) {
+        Location spawnLocation = location.clone().add(0.5, 0.5, 0.5);
+
+        List<String> linesList = new ArrayList<>();
+        Collections.addAll(linesList, lines);
+
+        CMIHologram hologram = new CMIHologram(id, spawnLocation);
+        hologram.setLines(linesList);
+
+        CMI.getInstance().getHologramManager().addHologram(hologram);
+        hologramIDs.add(id);
+        hologram.update();
+    }
+
+    @Override
+    public void createHologram(String id, Location location, List<String> lines) {
+        Location spawnLocation = location.clone().add(0.5, 0.5, 0.5);
+
+        CMIHologram hologram = new CMIHologram(id, spawnLocation);
+        hologram.setLines(lines);
+
+        CMI.getInstance().getHologramManager().addHologram(hologram);
+        hologramIDs.add(id);
+        hologram.update();
+    }
+
+    @Override
+    public void moveHologram(String id, Location location) {
+        if(!exists(id)) return;
+        CMIHologram hologram = CMI.getInstance().getHologramManager().getHolograms().get(id);
+        hologram.moveTo(location);
+        hologram.refresh();
+    }
+
+    @Override
+    public void removeHologram(String id) {
+        if(!exists(id)) return;
+        CMIHologram hologram = CMI.getInstance().getHologramManager().getHolograms().get(id);
+        hologram.remove();
+        hologramIDs.remove(id);
+    }
+
+    @Override
+    public void editLine(String id, int line, String text) {
+        if(!exists(id)) return;
+        CMIHologram hologram = CMI.getInstance().getHologramManager().getHolograms().get(id);
+        List<String> lines = hologram.getLines();
+        if(line < 0 || line >= lines.size()) return;
+        lines.set(line, text);
+        hologram.setLines(lines);
+        hologram.refresh();
+    }
+
+    @Override
+    public void removeHolograms() {
+        hologramIDs.forEach(this::removeHologram);
+    }
+
+    @Override
+    public boolean exists(String id) {
+        if(!isEnabled()) return false;
+        return CMI.getInstance().getHologramManager().getHolograms().containsKey(id);
+    }
+
+}
