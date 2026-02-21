@@ -1,7 +1,7 @@
 package dev.flrp.espresso.hook.stacker;
 
 import com.bgsoftware.wildstacker.api.WildStackerAPI;
-import dev.rosewood.rosestacker.event.EntityUnstackEvent;
+import com.bgsoftware.wildstacker.api.events.EntityUnstackEvent;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.plugin.Plugin;
 

@@ -27,8 +27,9 @@ public class UpgradeableSpawnersSpawnerProvider implements SpawnerProvider {
     @Override
     @Nullable
     public EntityType getSpawnerEntityType(Block block) {
-        if (!isSpawner(block)) return null;
-        return UpgradeableSpawnersAPI.getInstance().getSpawner(block).getEntityType();
+        if (!isEnabled()) return null;
+        var spawner = UpgradeableSpawnersAPI.getInstance().getSpawner(block);
+        return spawner != null ? spawner.getEntityType() : null;
     }
 
     @Override

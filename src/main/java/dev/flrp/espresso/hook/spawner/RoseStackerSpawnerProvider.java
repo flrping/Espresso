@@ -33,14 +33,18 @@ public class RoseStackerSpawnerProvider implements SpawnerProvider {
     @Override
     @Nullable
     public EntityType getSpawnerEntityType(Block block) {
-        if (!isSpawner(block)) return null;
-        return roseStackerAPI.getStackedSpawner(block).getSpawner().getSpawnedType();
+        if (roseStackerAPI == null) return null;
+        var stackedSpawner = roseStackerAPI.getStackedSpawner(block);
+        if (stackedSpawner == null) return null;
+        return stackedSpawner.getSpawner().getSpawnedType();
     }
 
     @Override
     public int getSpawnerStackSize(Block block) {
-        if (!isSpawner(block)) return 0;
-        return roseStackerAPI.getStackedSpawner(block).getStackSize();
+        if (roseStackerAPI == null) return 0;
+        var stackedSpawner = roseStackerAPI.getStackedSpawner(block);
+        if (stackedSpawner == null) return 0;
+        return stackedSpawner.getStackSize();
     }
 
 }

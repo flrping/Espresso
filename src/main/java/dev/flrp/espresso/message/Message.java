@@ -77,9 +77,10 @@ public class Message {
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, components);
                 break;
             case HOLOGRAM:
-                hologramSetting.getHologramProvider().createHologram(UUID.randomUUID().toString(), player.getLocation(), template);
+                String hologramId = UUID.randomUUID().toString();
+                hologramSetting.getHologramProvider().createHologram(hologramId, player.getLocation(), template);
                 if (hologramSetting.getDuration() > 0)
-                    Bukkit.getScheduler().runTaskLater(hologramSetting.getPlugin(), () -> hologramSetting.getHologramProvider().removeHologram(player.getUniqueId().toString()), hologramSetting.getDuration());
+                    Bukkit.getScheduler().runTaskLater(hologramSetting.getPlugin(), () -> hologramSetting.getHologramProvider().removeHologram(hologramId), hologramSetting.getDuration());
                 break;
             case TITLE:
                 if (titleSetting.isSubTitle()) {

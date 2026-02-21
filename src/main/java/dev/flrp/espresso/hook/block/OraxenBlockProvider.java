@@ -30,7 +30,8 @@ public class OraxenBlockProvider implements BlockProvider {
     @Override
     public String getCustomBlockName(Block block) {
         if (!isEnabled()) return null;
-        return OraxenBlocks.getOraxenBlock(block.getLocation()).getItemID();
+        var oraxenBlock = OraxenBlocks.getOraxenBlock(block.getLocation());
+        return oraxenBlock != null ? oraxenBlock.getItemID() : null;
     }
 
     @Override
@@ -47,19 +48,24 @@ public class OraxenBlockProvider implements BlockProvider {
 
     @Override
     public boolean isCustomBlock(String blockName) {
+        if (!isEnabled()) return false;
         return OraxenBlocks.isOraxenBlock(blockName);
     }
 
     @Override
     public void giveBlock(Player player, String blockName) {
         if (!isEnabled()) return;
-        player.getInventory().addItem(OraxenItems.getItemById(blockName).build());
+        var itemBuilder = OraxenItems.getItemById(blockName);
+        if (itemBuilder == null) return;
+        player.getInventory().addItem(itemBuilder.build());
     }
 
     @Override
     public void giveBlock(Player player, String blockName, int amount) {
         if (!isEnabled()) return;
-        ItemStack item = OraxenItems.getItemById(blockName).build();
+        var itemBuilder = OraxenItems.getItemById(blockName);
+        if (itemBuilder == null) return;
+        ItemStack item = itemBuilder.build();
         item.setAmount(amount);
         player.getInventory().addItem(item);
     }
@@ -73,7 +79,8 @@ public class OraxenBlockProvider implements BlockProvider {
     @Override
     public ItemStack getItemStack(String blockName) {
         if (!isEnabled()) return null;
-        return OraxenItems.getItemById(blockName).build();
+        var itemBuilder = OraxenItems.getItemById(blockName);
+        return itemBuilder != null ? itemBuilder.build() : null;
     }
 
 }

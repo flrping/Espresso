@@ -13,7 +13,7 @@ public interface EntityProvider extends Hook {
     // implementing plugins will get this provider interface. Specifically, plugins
     // that use their own managers to handle custom entity names, identifiers, and such.
     // This allows plugins to do unique things with entities that have custom identifiers.
-    // They have a higher likely-hood of having custom models and more.
+    // They have a higher likelihood of having custom models and more.
 
     EntityType getType();
 

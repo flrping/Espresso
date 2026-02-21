@@ -28,6 +28,7 @@ public class ByConditionExtended implements Condition {
      * @return If the entity is present.
      */
     public boolean check(EntityType entityType, String entity) {
+        if (!entities.containsKey(entityType)) return false;
         return entities.get(entityType).contains(entity);
     }
 

@@ -89,8 +89,10 @@ public class LootTable implements Conditionable, Cloneable {
      * @param identifier The identifier of the loot.
      */
     public void removeLoot(String identifier) {
+        Lootable loot = loots.get(identifier);
+        if (loot == null) return;
         loots.remove(identifier);
-        entryTotalWeight -= loots.get(identifier).getWeight();
+        entryTotalWeight -= loot.getWeight();
     }
 
     /**

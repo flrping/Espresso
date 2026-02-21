@@ -35,8 +35,9 @@ public class UltimateStackerSpawnerProvider implements SpawnerProvider {
 
     @Override
     public int getSpawnerStackSize(Block block) {
-        if (!isSpawner(block)) return 0;
-        return UltimateStackerApi.getSpawnerStackManager().getSpawner(block).getAmount();
+        if (!isEnabled()) return 0;
+        var spawner = UltimateStackerApi.getSpawnerStackManager().getSpawner(block);
+        return spawner != null ? spawner.getAmount() : 0;
     }
 
 }

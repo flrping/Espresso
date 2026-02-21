@@ -44,24 +44,30 @@ public class NexoBlockProvider implements BlockProvider {
 
     @Override
     public boolean isCustomBlock(Block block) {
+        if (!isEnabled()) return false;
         return NexoBlocks.isCustomBlock(block);
     }
 
     @Override
     public boolean isCustomBlock(String blockName) {
+        if (!isEnabled()) return false;
         return NexoBlocks.isCustomBlock(blockName);
     }
 
     @Override
     public void giveBlock(Player player, String blockName) {
         if (!isEnabled()) return;
-        player.getInventory().addItem(NexoItems.itemFromId(blockName).build());
+        var itemBuilder = NexoItems.itemFromId(blockName);
+        if (itemBuilder == null) return;
+        player.getInventory().addItem(itemBuilder.build());
     }
 
     @Override
     public void giveBlock(Player player, String blockName, int amount) {
         if (!isEnabled()) return;
-        ItemStack itemStack = NexoItems.itemFromId(blockName).build();
+        var itemBuilder = NexoItems.itemFromId(blockName);
+        if (itemBuilder == null) return;
+        ItemStack itemStack = itemBuilder.build();
         itemStack.setAmount(amount);
         player.getInventory().addItem(itemStack);
     }
@@ -75,7 +81,8 @@ public class NexoBlockProvider implements BlockProvider {
     @Override
     public ItemStack getItemStack(String blockName) {
         if (!isEnabled()) return null;
-        return NexoItems.itemFromId(blockName).build();
+        var itemBuilder = NexoItems.itemFromId(blockName);
+        return itemBuilder != null ? itemBuilder.build() : null;
     }
 
 }

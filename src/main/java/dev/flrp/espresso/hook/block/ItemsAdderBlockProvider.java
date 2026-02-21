@@ -6,6 +6,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -51,14 +52,17 @@ public class ItemsAdderBlockProvider implements BlockProvider {
     public boolean isCustomBlock(String blockName) {
         if (!isEnabled()) return false;
 
-        // Check if the block name matches any custom block name
-        if (CustomBlock.getNamespacedIdsInRegistry().contains(blockName)) {
+        Collection<String> namespacedIds = CustomBlock.getNamespacedIdsInRegistry();
+        if (namespacedIds.contains(blockName)) {
             return true;
         }
 
-        // Check if the block name matches any custom block name without the namespace ID
         String blockWithoutNamespace = blockName.contains(":") ? blockName.split(":")[1] : blockName;
-        return CustomBlock.getNamespacedIdsInRegistry().stream().anyMatch(id -> id.endsWith(blockWithoutNamespace));
+        return namespacedIds.stream().anyMatch(id -> {
+            int colonIndex = id.indexOf(':');
+            String localName = colonIndex >= 0 ? id.substring(colonIndex + 1) : id;
+            return localName.equals(blockWithoutNamespace);
+        });
     }
 
     @Override

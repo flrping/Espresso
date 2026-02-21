@@ -114,7 +114,8 @@ public class LootContainer implements Cloneable {
     public LootContainer clone() {
         try {
             LootContainer clonedContainer = (LootContainer) super.clone();
-            clonedContainer.getLootTables().clear();
+            clonedContainer.lootTables.clear();
+            clonedContainer.totalWeightOfTables = 0;
             for (LootTable lootTable : lootTables.values()) {
                 clonedContainer.addLootTable(lootTable.clone());
             }

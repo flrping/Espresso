@@ -62,7 +62,7 @@ public class DecentHologramsHologramProvider implements HologramProvider {
 
     @Override
     public void removeHolograms() {
-        hologramIDs.forEach(this::removeHologram);
+        new HashSet<>(hologramIDs).forEach(this::removeHologram);
     }
 
     @Override

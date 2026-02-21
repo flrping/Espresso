@@ -10,7 +10,8 @@ public class EnchantUtils {
         if (Bukkit.getVersion().matches(".*(1\\.8|1\\.9|1\\.10|1\\.11|1\\.12).*")) {
             return Enchantment.getByName(string);
         } else {
-            return Enchantment.getByKey(NamespacedKey.minecraft(string.toLowerCase()));
+            String sanitized = string.toLowerCase().replace(" ", "_");
+            return Enchantment.getByKey(NamespacedKey.minecraft(sanitized));
         }
     }
 

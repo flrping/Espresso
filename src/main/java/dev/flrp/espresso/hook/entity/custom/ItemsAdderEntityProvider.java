@@ -6,6 +6,7 @@ import jakarta.annotation.Nullable;
 import org.bukkit.entity.LivingEntity;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ItemsAdderEntityProvider implements EntityProvider {
@@ -46,14 +47,17 @@ public class ItemsAdderEntityProvider implements EntityProvider {
     public boolean isCustomEntity(String entity) {
         if (!isEnabled()) return false;
 
-        // Check if the entity name matches any custom entity name
-        if (CustomEntity.getNamespacedIdsInRegistry().contains(entity)) {
+        Collection<String> namespacedIds = CustomEntity.getNamespacedIdsInRegistry();
+        if (namespacedIds.contains(entity)) {
             return true;
         }
 
-        // Check if the entity name matches any custom entity name without the namespace ID
         String entityWithoutNamespace = entity.contains(":") ? entity.split(":")[1] : entity;
-        return CustomEntity.getNamespacedIdsInRegistry().stream().anyMatch(id -> id.endsWith(entityWithoutNamespace));
+        return namespacedIds.stream().anyMatch(id -> {
+            int colonIndex = id.indexOf(':');
+            String localName = colonIndex >= 0 ? id.substring(colonIndex + 1) : id;
+            return localName.equals(entityWithoutNamespace);
+        });
     }
 
     @Override

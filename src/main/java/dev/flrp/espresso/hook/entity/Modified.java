@@ -17,6 +17,7 @@ public interface Modified extends Hook {
      * Checks if the entity has a specific modifier by another plugin.
      *
      * @param entity The entity to check.
+     * @param modifier The modifier identifier to check for.
      * @return if the entity has the modifier.
      */
     boolean hasModifier(LivingEntity entity, String modifier);
