@@ -426,10 +426,15 @@
 
     <distributionManagement>
         <repository>
-            <id>github</id>
-            <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/flrping/espresso</url>
+            <id>wyrmlings-repository-releases</id>
+            <name>Wyrmlings Nexus Releases</name>
+            <url>https://repo.wyrmlings.com/repository/maven-releases/</url>
         </repository>
+        <snapshotRepository>
+            <id>wyrmlings-repository-snapshots</id>
+            <name>Wyrmlings Nexus Snapshots</name>
+            <url>https://repo.wyrmlings.com/repository/maven-snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
 
 </project>
