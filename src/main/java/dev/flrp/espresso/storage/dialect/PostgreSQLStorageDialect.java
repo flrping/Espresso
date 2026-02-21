@@ -1,11 +1,11 @@
 package dev.flrp.espresso.storage.dialect;
 
+import dev.flrp.espresso.storage.query.ColumnType;
+import dev.flrp.espresso.storage.query.SQLColumn;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
-import dev.flrp.espresso.storage.query.ColumnType;
-import dev.flrp.espresso.storage.query.SQLColumn;
 
 public class PostgreSQLStorageDialect extends SQLStorageDialect {
 
@@ -46,7 +46,7 @@ public class PostgreSQLStorageDialect extends SQLStorageDialect {
     /**
      * Creates string to create enum type in the database.
      * This is postgres specific.
-     * 
+     *
      * @param enumName   The name of the enum type.
      * @param enumValues The values of the enum type.
      * @return The SQL statement to create the enum type.

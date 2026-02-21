@@ -4,7 +4,7 @@ import dev.lone.itemsadder.api.CustomStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 public class ItemsAdderItemProvider implements ItemProvider {
 
@@ -18,34 +18,35 @@ public class ItemsAdderItemProvider implements ItemProvider {
         return ItemType.ITEMS_ADDER;
     }
 
-    @Override @Nullable
+    @Override
+    @Nullable
     public String getCustomItemName(ItemStack item) {
-        if(!isEnabled()) return null;
+        if (!isEnabled()) return null;
         CustomStack customItem = CustomStack.byItemStack(item);
         return customItem != null ? customItem.getId() : null;
     }
 
     @Override
     public boolean isCustomItem(ItemStack item) {
-        if(!isEnabled()) return false;
+        if (!isEnabled()) return false;
         CustomStack stack = CustomStack.byItemStack(item);
         return stack != null;
     }
 
     @Override
     public void giveItem(Player player, String itemName) {
-        if(!isEnabled()) return;
+        if (!isEnabled()) return;
         CustomStack stack = CustomStack.getInstance(itemName);
-        if(stack != null) {
+        if (stack != null) {
             player.getInventory().addItem(stack.getItemStack());
         }
     }
 
     @Override
     public void giveItem(Player player, String itemName, int amount) {
-        if(!isEnabled()) return;
+        if (!isEnabled()) return;
         CustomStack stack = CustomStack.getInstance(itemName);
-        if(stack != null) {
+        if (stack != null) {
             ItemStack item = stack.getItemStack();
             item.setAmount(amount);
             player.getInventory().addItem(item);
@@ -54,7 +55,7 @@ public class ItemsAdderItemProvider implements ItemProvider {
 
     @Override
     public ItemStack getItemStack(String itemName) {
-        if(!isEnabled()) return null;
+        if (!isEnabled()) return null;
         CustomStack stack = CustomStack.getInstance(itemName);
         return stack != null ? stack.getItemStack() : null;
     }

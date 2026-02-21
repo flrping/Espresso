@@ -6,7 +6,7 @@
 
     <groupId>dev.flrp</groupId>
     <artifactId>espresso</artifactId>
-    <version>1.5.0</version>
+    <version>1.6.0</version>
     <packaging>jar</packaging>
 
     <name>Espresso</name>
@@ -159,13 +159,13 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.21.8-R0.1-SNAPSHOT</version>
+            <version>1.21.11-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.bgsoftware</groupId>
             <artifactId>WildStackerAPI</artifactId>
-            <version>2023.2</version>
+            <version>2025.2</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
@@ -177,13 +177,13 @@
         <dependency>
             <groupId>uk.antiperson.stackmob</groupId>
             <artifactId>StackMob</artifactId>
-            <version>5.8.2</version>
+            <version>5.10.3</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.lumine</groupId>
             <artifactId>MythicLib-dist</artifactId>
-            <version>1.5.2-SNAPSHOT</version>
+            <version>1.7.1-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>
@@ -195,7 +195,7 @@
         <dependency>
             <groupId>io.lumine</groupId>
             <artifactId>Mythic-Dist</artifactId>
-            <version>5.3.5</version>
+            <version>5.9.5</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -217,28 +217,10 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>io.hotmail.com.jacob_vejvoda</groupId>
-            <artifactId>InfernalMobs</artifactId>
-            <version>6.7.6</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>com.github.LoneDev6</groupId>
             <artifactId>api-itemsadder</artifactId>
             <version>3.5.0b</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.Realizedd</groupId>
-            <artifactId>TokenManager</artifactId>
-            <version>3.2.7</version>
-            <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.black_ixx</groupId>
@@ -267,7 +249,7 @@
         <dependency>
             <groupId>dev.rosewood</groupId>
             <artifactId>rosestacker</artifactId>
-            <version>1.5.10</version>
+            <version>1.5.38</version>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>
@@ -374,8 +356,13 @@
         <dependency>
             <groupId>com.github.Zrips</groupId>
             <artifactId>CMILib</artifactId>
-            <version>1.5.4.6</version>
+            <version>1.5.8.1</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>3.0.0</version>
         </dependency>
 
 
@@ -444,10 +431,15 @@
 
     <distributionManagement>
         <repository>
-            <id>github</id>
-            <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/flrping/espresso</url>
+            <id>wyrmlings-repository-releases</id>
+            <name>Wyrmlings Nexus Releases</name>
+            <url>https://repo.wyrmlings.com/repository/maven-releases/</url>
         </repository>
+        <snapshotRepository>
+            <id>wyrmlings-repository-snapshots</id>
+            <name>Wyrmlings Nexus Snapshots</name>
+            <url>https://repo.wyrmlings.com/repository/maven-snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
 
 </project>

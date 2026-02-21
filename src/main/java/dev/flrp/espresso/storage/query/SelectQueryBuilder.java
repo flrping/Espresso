@@ -1,12 +1,12 @@
 package dev.flrp.espresso.storage.query;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import dev.flrp.espresso.storage.dialect.SQLStorageDialect;
 import dev.flrp.espresso.storage.provider.SQLStorageProvider;
 import dev.flrp.espresso.storage.provider.StorageType;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * A builder for constructing SQL SELECT queries. This class allows you to
@@ -33,7 +33,7 @@ public class SelectQueryBuilder implements QueryBuilder {
     /**
      * Factory method for using an SQLStorageProvider.
      *
-     * @param table The table to select from.
+     * @param table    The table to select from.
      * @param provider The storage provider to use.
      * @return A new SelectQueryBuilder instance.
      */
@@ -45,7 +45,7 @@ public class SelectQueryBuilder implements QueryBuilder {
      * Factory method for building SQL strings only.
      *
      * @param table The table to select from.
-     * @param type The storage type to use.
+     * @param type  The storage type to use.
      * @return A new SelectQueryBuilder instance.
      */
     public static SelectQueryBuilder with(String table, StorageType type) {

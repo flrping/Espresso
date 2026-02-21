@@ -1,10 +1,10 @@
 package dev.flrp.espresso.storage.dialect;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import dev.flrp.espresso.storage.query.ColumnType;
 import dev.flrp.espresso.storage.query.SQLColumn;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class SQLiteStorageDialect extends SQLStorageDialect {
 

@@ -91,6 +91,7 @@ public class SQLStorageProvider implements StorageProvider, SQLStorageBehavior {
     /**
      * Returns the SQLStorageDialect associated with this provider.
      * This dialect provides methods for SQL generation and database-specific operations.
+     *
      * @return the SQLStorageDialect for this provider.
      */
     public SQLStorageDialect getDialect() {

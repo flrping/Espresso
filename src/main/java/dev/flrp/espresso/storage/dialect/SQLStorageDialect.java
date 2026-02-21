@@ -1,9 +1,9 @@
 package dev.flrp.espresso.storage.dialect;
 
+import dev.flrp.espresso.storage.query.SQLColumn;
+
 import java.util.List;
 import java.util.stream.Collectors;
-
-import dev.flrp.espresso.storage.query.SQLColumn;
 
 public abstract class SQLStorageDialect implements StorageDialect {
 
@@ -107,7 +107,7 @@ public abstract class SQLStorageDialect implements StorageDialect {
      * @return A SQL string for selecting columns from the table.
      */
     public String select(String table, List<String> columns, List<String> joins, String whereClause, String orderBy,
-            String limit) {
+                         String limit) {
         String cols = (columns == null || columns.isEmpty()) ? "*" : String.join(", ", columns);
         StringBuilder sql = new StringBuilder("SELECT " + cols + " FROM " + quoteIdentifier(table));
 
@@ -169,7 +169,7 @@ public abstract class SQLStorageDialect implements StorageDialect {
 
     /**
      * Returns the options for a column type.
-     * 
+     *
      * @param column The column to build the options for.
      * @return A SQL string for the column options.
      */

@@ -1,13 +1,15 @@
 package dev.flrp.espresso.storage.provider;
 
-import java.io.File;
-import java.util.Map;
-import java.util.logging.Logger;
-
 import dev.flrp.espresso.configuration.Configuration;
 import dev.flrp.espresso.storage.behavior.KeyValueStorageBehavior;
 import dev.flrp.espresso.storage.behavior.StorageBehavior;
 import dev.flrp.espresso.storage.exception.ProviderException;
+
+import jakarta.annotation.Nullable;
+import java.io.File;
+import java.util.Map;
+import java.util.Objects;
+import java.util.logging.Logger;
 
 public class YAMLStorageProvider implements StorageProvider, KeyValueStorageBehavior {
 
@@ -15,8 +17,8 @@ public class YAMLStorageProvider implements StorageProvider, KeyValueStorageBeha
     private final Logger logger;
 
     public YAMLStorageProvider(Logger logger, Configuration config) {
-        this.config = config;
-        this.logger = logger;
+        this.logger = Objects.requireNonNull(logger, "logger cannot be null");
+        this.config = Objects.requireNonNull(config, "config cannot be null");
     }
 
     @Override
@@ -60,6 +62,7 @@ public class YAMLStorageProvider implements StorageProvider, KeyValueStorageBeha
     }
 
     @Override
+    @Nullable
     public File getFile() {
         return null;
     }
@@ -75,8 +78,14 @@ public class YAMLStorageProvider implements StorageProvider, KeyValueStorageBeha
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T get(String key, Class<T> type) {
-        return type.cast(config.getConfiguration().get(key));
+        Object val = config.getConfiguration().get(key);
+        if (val == null) return null;
+        if (!type.isInstance(val)) {
+            throw new IllegalStateException("Value at key '" + key + "' is of type " + val.getClass().getName() + ", expected " + type.getName());
+        }
+        return type.cast(val);
     }
 
     @Override
@@ -86,7 +95,7 @@ public class YAMLStorageProvider implements StorageProvider, KeyValueStorageBeha
 
     @Override
     public void setAll(Map<String, Object> values) {
-        for (Map.Entry<String, Object> entry : values.entrySet()) { 
+        for (Map.Entry<String, Object> entry : values.entrySet()) {
             config.getConfiguration().set(entry.getKey(), entry.getValue());
         }
     }
@@ -105,5 +114,5 @@ public class YAMLStorageProvider implements StorageProvider, KeyValueStorageBeha
     public void save() {
         config.save();
     }
-    
+
 }

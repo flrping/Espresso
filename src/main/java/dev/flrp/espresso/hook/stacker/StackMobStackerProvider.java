@@ -38,8 +38,8 @@ public class StackMobStackerProvider implements StackerProvider {
 
     @Override
     public int getStackSize(LivingEntity entity) {
-        if(stackMob == null) return 1;
-        if(!stackMob.getEntityManager().isStackedEntity(entity)) return 1;
+        if (stackMob == null) return 1;
+        if (!stackMob.getEntityManager().isStackedEntity(entity)) return 1;
         return stackMob.getEntityManager().getStackEntity(entity).getSize();
     }
 

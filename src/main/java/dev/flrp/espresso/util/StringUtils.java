@@ -14,6 +14,7 @@ public class StringUtils {
     /**
      * Some plugins support block directions, so they will have "_z", "_y", or "_x" at the end of their ID.
      * This will also remove the namespaceID "example:" if present.
+     *
      * @param input The outcome of getId().
      * @return The appropriate ItemsAdder name.
      */
@@ -29,6 +30,7 @@ public class StringUtils {
 
     /**
      * This will be used to parse color codes and hex if present.
+     *
      * @param input The string to parse.
      * @return The parsed string.
      */

@@ -1,7 +1,7 @@
 package dev.flrp.espresso.hook.stacker;
 
 import com.bgsoftware.wildstacker.api.WildStackerAPI;
-import dev.rosewood.rosestacker.event.EntityUnstackEvent;
+import com.bgsoftware.wildstacker.api.events.EntityUnstackEvent;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.plugin.Plugin;
 
@@ -36,8 +36,8 @@ public class WildStackerStackerProvider implements StackerProvider {
 
     @Override
     public int getStackSize(LivingEntity entity) {
-        if(!this.isEnabled()) return 1;
-        if(WildStackerAPI.getStackedEntity(entity) == null) return 1;
+        if (!this.isEnabled()) return 1;
+        if (WildStackerAPI.getStackedEntity(entity) == null) return 1;
         return WildStackerAPI.getEntityAmount(entity);
     }
 

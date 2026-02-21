@@ -1,20 +1,20 @@
 package dev.flrp.espresso.storage.query;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import dev.flrp.espresso.storage.behavior.SQLStorageBehavior;
 import dev.flrp.espresso.storage.dialect.SQLStorageDialect;
 import dev.flrp.espresso.storage.exception.ProviderException;
 import dev.flrp.espresso.storage.provider.SQLStorageProvider;
 import dev.flrp.espresso.storage.provider.StorageType;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * A builder for constructing SQL DELETE queries. This class allows you to
  * specify the table to delete from and the conditions for deletion.
- *
+ * <p>
  * If a storage provider is not provided, the builder will be configured for
  * string only returns.
  */
@@ -38,7 +38,7 @@ public class DeleteQueryBuilder implements QueryBuilder {
     /**
      * Factory method for using an SQLStorageProvider (allows execution).
      *
-     * @param table The table to delete from.
+     * @param table    The table to delete from.
      * @param provider The storage provider to use.
      * @return A new DeleteQueryBuilder instance.
      */
@@ -50,7 +50,7 @@ public class DeleteQueryBuilder implements QueryBuilder {
      * Factory method for building SQL strings only (no execution).
      *
      * @param table The table to delete from.
-     * @param type The storage type to use.
+     * @param type  The storage type to use.
      * @return A new DeleteQueryBuilder instance.
      */
     public static DeleteQueryBuilder with(String table, StorageType type) {
@@ -74,9 +74,9 @@ public class DeleteQueryBuilder implements QueryBuilder {
     /**
      * Executes the DELETE query against the database.
      *
-     * @throws ProviderException If an error occurs during query execution.
+     * @throws ProviderException             If an error occurs during query execution.
      * @throws UnsupportedOperationException If the builder is configured for
-     * string only returns.
+     *                                       string only returns.
      */
     public void execute() throws ProviderException, UnsupportedOperationException {
         if (stringOnly) {

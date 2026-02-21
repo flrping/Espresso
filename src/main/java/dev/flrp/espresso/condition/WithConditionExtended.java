@@ -12,6 +12,7 @@ public class WithConditionExtended implements Condition {
 
     /**
      * Get the condition type.
+     *
      * @return The condition type.
      */
     @Override
@@ -21,17 +22,19 @@ public class WithConditionExtended implements Condition {
 
     /**
      * Check if the item type has the material.
+     *
      * @param itemType The item type, or the hook the item is from. (e.g. ITEMS_ADDER). NONE is for default materials.
      * @param material The material to check.
      * @return If the material is present.
      */
     public boolean check(ItemType itemType, String material) {
-        if(!materials.containsKey(itemType)) return false;
+        if (!materials.containsKey(itemType)) return false;
         return materials.get(itemType).contains(material);
     }
 
     /**
      * Get the materials.
+     *
      * @return The materials.
      */
     public HashMap<ItemType, List<String>> getMaterials() {
@@ -40,6 +43,7 @@ public class WithConditionExtended implements Condition {
 
     /**
      * Set the materials.
+     *
      * @param materials The materials.
      */
     public void setMaterials(HashMap<ItemType, List<String>> materials) {
@@ -48,21 +52,23 @@ public class WithConditionExtended implements Condition {
 
     /**
      * Add a material to the item type.
+     *
      * @param itemType The item type, or the hook the item is from. (e.g. ITEMS_ADDER). NONE is for default materials.
      * @param material The material to add.
      */
     public void addMaterial(ItemType itemType, String material) {
-        if(!materials.containsKey(itemType)) materials.put(itemType, new ArrayList<>());
+        if (!materials.containsKey(itemType)) materials.put(itemType, new ArrayList<>());
         materials.get(itemType).add(material);
     }
 
     /**
      * Remove a material from the item type.
+     *
      * @param itemType The item type, or the hook the item is from. (e.g. ITEMS_ADDER). NONE is for default materials.
      * @param material The material to remove.
      */
     public void removeMaterial(ItemType itemType, String material) {
-        if(!materials.containsKey(itemType) || !materials.get(itemType).contains(material)) return;
+        if (!materials.containsKey(itemType) || !materials.get(itemType).contains(material)) return;
         materials.get(itemType).remove(material);
     }
 

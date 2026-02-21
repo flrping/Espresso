@@ -1,10 +1,10 @@
 package dev.flrp.espresso.storage.dialect;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import dev.flrp.espresso.storage.query.ColumnType;
 import dev.flrp.espresso.storage.query.SQLColumn;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MariaDBStorageDialect extends SQLStorageDialect {
 
@@ -57,7 +57,7 @@ public class MariaDBStorageDialect extends SQLStorageDialect {
      */
     @Override
     public boolean supports(ColumnType type) {
-        switch(type) {
+        switch (type) {
             case NULL:
                 return false;
             default:
@@ -95,7 +95,7 @@ public class MariaDBStorageDialect extends SQLStorageDialect {
 
             sb.append(" DEFAULT ").append(defaultValue);
         }
-        if (column.getCheckConstraint() != null)  sb.append(" CHECK (").append(column.getCheckConstraint()).append(")");
+        if (column.getCheckConstraint() != null) sb.append(" CHECK (").append(column.getCheckConstraint()).append(")");
 
         return sb.toString();
     }

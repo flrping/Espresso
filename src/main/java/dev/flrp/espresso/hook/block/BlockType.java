@@ -8,8 +8,8 @@ public enum BlockType {
     NEXO;
 
     public static BlockType getByName(String string) {
-        for(BlockType type : values()) {
-            if(type.name().equalsIgnoreCase(string)) {
+        for (BlockType type : values()) {
+            if (type.name().equalsIgnoreCase(string)) {
                 return type;
             }
         }

@@ -1,22 +1,16 @@
 package dev.flrp.espresso.storage.provider;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import dev.flrp.espresso.storage.behavior.KeyValueStorageBehavior;
+import dev.flrp.espresso.storage.behavior.StorageBehavior;
+import dev.flrp.espresso.storage.exception.ProviderException;
+
+import java.io.*;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import dev.flrp.espresso.storage.behavior.KeyValueStorageBehavior;
-import dev.flrp.espresso.storage.behavior.StorageBehavior;
-import dev.flrp.espresso.storage.exception.ProviderException;
 
 public class JSONStorageProvider implements StorageProvider, KeyValueStorageBehavior {
 
@@ -69,7 +63,8 @@ public class JSONStorageProvider implements StorageProvider, KeyValueStorageBeha
     public void open() throws ProviderException {
         if (file.exists()) {
             try (Reader reader = new FileReader(file)) {
-                Type type = new TypeToken<Map<String, Object>>() {}.getType();
+                Type type = new TypeToken<Map<String, Object>>() {
+                }.getType();
                 data = gson.fromJson(reader, type);
                 logger.info("[Storage] " + getName() + " file opened.");
             } catch (IOException e) {

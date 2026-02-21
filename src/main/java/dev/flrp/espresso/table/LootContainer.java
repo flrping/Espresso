@@ -1,6 +1,6 @@
 package dev.flrp.espresso.table;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.util.HashMap;
 
 public class LootContainer implements Cloneable {
@@ -16,6 +16,7 @@ public class LootContainer implements Cloneable {
 
     /**
      * Add a loot table to the container.
+     *
      * @param lootTable The loot table to add.
      */
     public void addLootTable(LootTable lootTable) {
@@ -25,6 +26,7 @@ public class LootContainer implements Cloneable {
 
     /**
      * Remove a loot table from the container.
+     *
      * @param lootTable The loot table to remove.
      */
     public void removeLootTable(LootTable lootTable) {
@@ -34,6 +36,7 @@ public class LootContainer implements Cloneable {
 
     /**
      * Get a loot table from the container.
+     *
      * @param name The name of the loot table to get.
      * @return The loot table.
      */
@@ -43,6 +46,7 @@ public class LootContainer implements Cloneable {
 
     /**
      * Get all the loot tables in the container.
+     *
      * @return All the loot tables.
      */
     public HashMap<String, LootTable> getLootTables() {
@@ -51,6 +55,7 @@ public class LootContainer implements Cloneable {
 
     /**
      * Get the total weight of all the loot tables in the container.
+     *
      * @return The total weight of all the loot tables.
      */
     public double getTotalWeightOfTables() {
@@ -59,20 +64,21 @@ public class LootContainer implements Cloneable {
 
     /**
      * Roll a loot table from the container.
+     *
      * @return The rolled loot table.
      *
      */
     @Nullable
     public LootTable rollLootTable() {
         double roll;
-        if(totalWeightOfTables < 100) {
+        if (totalWeightOfTables < 100) {
             roll = Math.random() * 100;
         } else {
             roll = Math.random() * totalWeightOfTables;
         }
 
-        for(LootTable lootTable : lootTables.values()) {
-            if(roll <= lootTable.getWeight()) {
+        for (LootTable lootTable : lootTables.values()) {
+            if (roll <= lootTable.getWeight()) {
                 return lootTable;
             } else {
                 roll -= lootTable.getWeight();
@@ -83,6 +89,7 @@ public class LootContainer implements Cloneable {
 
     /**
      * Roll a loot from a loot table in the container.
+     *
      * @param lootTable The loot table to roll from.
      * @return The rolled loot.
      */
@@ -93,6 +100,7 @@ public class LootContainer implements Cloneable {
 
     /**
      * Roll a loot from a loot table in the container.
+     *
      * @return The rolled loot. null if no loot table was rolled.
      */
     @Nullable
@@ -106,8 +114,9 @@ public class LootContainer implements Cloneable {
     public LootContainer clone() {
         try {
             LootContainer clonedContainer = (LootContainer) super.clone();
-            clonedContainer.getLootTables().clear();
-            for(LootTable lootTable : lootTables.values()) {
+            clonedContainer.lootTables.clear();
+            clonedContainer.totalWeightOfTables = 0;
+            for (LootTable lootTable : lootTables.values()) {
                 clonedContainer.addLootTable(lootTable.clone());
             }
             return clonedContainer;

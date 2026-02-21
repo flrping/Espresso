@@ -5,7 +5,7 @@ import dev.flrp.espresso.Espresso;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 public class UltimateStackerSpawnerProvider implements SpawnerProvider {
 
@@ -21,21 +21,23 @@ public class UltimateStackerSpawnerProvider implements SpawnerProvider {
 
     @Override
     public boolean isSpawner(Block block) {
-        if(!isEnabled()) return false;
+        if (!isEnabled()) return false;
         return UltimateStackerApi.getSpawnerStackManager().isSpawner(block);
     }
 
-    @Override @Nullable
+    @Override
+    @Nullable
     public EntityType getSpawnerEntityType(Block block) {
-        if(Espresso.getInstance().getConfig().getBoolean("errors.print"))
+        if (Espresso.getInstance().getConfig().getBoolean("errors.print"))
             throw new UnsupportedOperationException("UltimateStacker does not support getting the spawner type from it's API.");
         return null;
     }
 
     @Override
     public int getSpawnerStackSize(Block block) {
-        if(!isSpawner(block)) return 0;
-        return UltimateStackerApi.getSpawnerStackManager().getSpawner(block).getAmount();
+        if (!isEnabled()) return 0;
+        var spawner = UltimateStackerApi.getSpawnerStackManager().getSpawner(block);
+        return spawner != null ? spawner.getAmount() : 0;
     }
 
 }

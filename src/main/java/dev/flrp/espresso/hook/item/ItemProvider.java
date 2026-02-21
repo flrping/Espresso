@@ -32,7 +32,7 @@ public interface ItemProvider extends Hook {
     /**
      * Gives the player a custom item.
      *
-     * @param player The player to give the item to.
+     * @param player   The player to give the item to.
      * @param itemName The name of the custom item.
      */
     void giveItem(Player player, String itemName);
@@ -40,9 +40,9 @@ public interface ItemProvider extends Hook {
     /**
      * Gives the player a custom item.
      *
-     * @param player The player to give the item to.
+     * @param player   The player to give the item to.
      * @param itemName The name of the custom item.
-     * @param amount The amount of the custom item.
+     * @param amount   The amount of the custom item.
      */
     void giveItem(Player player, String itemName, int amount);
 

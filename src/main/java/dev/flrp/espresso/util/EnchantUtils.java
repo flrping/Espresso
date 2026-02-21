@@ -10,7 +10,8 @@ public class EnchantUtils {
         if (Bukkit.getVersion().matches(".*(1\\.8|1\\.9|1\\.10|1\\.11|1\\.12).*")) {
             return Enchantment.getByName(string);
         } else {
-            return Enchantment.getByKey(NamespacedKey.minecraft(string.toLowerCase()));
+            String sanitized = string.toLowerCase().replace(" ", "_");
+            return Enchantment.getByKey(NamespacedKey.minecraft(sanitized));
         }
     }
 
@@ -31,7 +32,7 @@ public class EnchantUtils {
                 return "BANE OF ARTHROPODS";
             case "DAMAGE_UNDEAD":
                 return "SMITE";
-            case "DIG_SPEED" :
+            case "DIG_SPEED":
                 return "EFFICIENCY";
             case "DURABILITY":
                 return "UNBREAKING";
@@ -45,13 +46,13 @@ public class EnchantUtils {
                 return "PROTECTION";
             case "PROTECTION_EXPLOSIONS":
                 return "BLAST PROTECTION";
-            case "PROTECTION_FALL" :
+            case "PROTECTION_FALL":
                 return "FEATHER FALLING";
             case "PROTECTION_FIRE":
                 return "FIRE PROTECTION";
             case "PROTECTION_PROJECTILE":
                 return "PROJECTILE PROTECTION";
-            case "WATER_WORKER" :
+            case "WATER_WORKER":
                 return "AQUA AFFINITY";
             case "BINDING_CURSE":
                 return "CURSE OF BINDING";
