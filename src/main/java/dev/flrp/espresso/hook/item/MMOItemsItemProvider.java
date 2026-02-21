@@ -35,6 +35,7 @@ public class MMOItemsItemProvider implements ItemProvider {
     @Override
     public void giveItem(Player player, String itemDetails) {
         if (!isEnabled()) return;
+		// itemDetails will be in the form of type:name
         if (itemDetails == null || !itemDetails.contains(":")) return;
         String[] details = itemDetails.split(":");
         if (details.length < 2) return;
