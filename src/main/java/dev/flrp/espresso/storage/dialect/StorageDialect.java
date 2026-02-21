@@ -30,6 +30,7 @@ public interface StorageDialect {
 
     /**
      * Returns if the column type is supported by the dialect.
+     *
      * @return true if the column type is supported, false otherwise.
      */
     boolean supports(ColumnType columnType);

@@ -15,6 +15,7 @@ public interface Modified extends Hook {
 
     /**
      * Checks if the entity has a specific modifier by another plugin.
+     *
      * @param entity The entity to check.
      * @return if the entity has the modifier.
      */
@@ -22,6 +23,7 @@ public interface Modified extends Hook {
 
     /**
      * Checks if the entity has custom modifiers by another plugin.
+     *
      * @param entity The entity to check.
      * @return if the entity has custom modifiers.
      */
@@ -29,6 +31,7 @@ public interface Modified extends Hook {
 
     /**
      * Returns a list of modifiers the entity has.
+     *
      * @param entity The entity to check.
      * @return a list of modifiers the entity has.
      */
@@ -36,6 +39,7 @@ public interface Modified extends Hook {
 
     /**
      * Returns a list of modifiers that can be applied to entities.
+     *
      * @return a list of modifiers that can be applied to entities.
      */
     List<String> getModifierList();

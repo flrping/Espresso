@@ -12,6 +12,7 @@ public class ByConditionExtended implements Condition {
 
     /**
      * Get the condition type.
+     *
      * @return The condition type.
      */
     @Override
@@ -21,8 +22,9 @@ public class ByConditionExtended implements Condition {
 
     /**
      * Check if the entity type has the entity.
+     *
      * @param entityType The entity type, or the hook the entity is from. (e.g. ITEMS_ADDER). NONE is for default entities.
-     * @param entity The entity to check.
+     * @param entity     The entity to check.
      * @return If the entity is present.
      */
     public boolean check(EntityType entityType, String entity) {
@@ -31,6 +33,7 @@ public class ByConditionExtended implements Condition {
 
     /**
      * Get the entities.
+     *
      * @return The entities.
      */
     public HashMap<EntityType, List<String>> getEntities() {
@@ -39,6 +42,7 @@ public class ByConditionExtended implements Condition {
 
     /**
      * Set the entities.
+     *
      * @param entities The entities.
      */
     public void setEntities(HashMap<EntityType, List<String>> entities) {
@@ -47,21 +51,23 @@ public class ByConditionExtended implements Condition {
 
     /**
      * Add an entity to the entity type.
+     *
      * @param entityType The entity type, or the hook the entity is from. (e.g. ITEMS_ADDER). NONE is for default entities.
-     * @param entity The entity to add.
+     * @param entity     The entity to add.
      */
     public void addEntity(EntityType entityType, String entity) {
-        if(!entities.containsKey(entityType)) entities.put(entityType, new ArrayList<>());
+        if (!entities.containsKey(entityType)) entities.put(entityType, new ArrayList<>());
         entities.get(entityType).add(entity);
     }
 
     /**
      * Remove an entity from the entity type.
+     *
      * @param entityType The entity type, or the hook the entity is from. (e.g. ITEMS_ADDER). NONE is for default entities.
-     * @param entity The entity to remove.
+     * @param entity     The entity to remove.
      */
     public void removeEntity(EntityType entityType, String entity) {
-        if(!entities.containsKey(entityType) || !entities.get(entityType).contains(entity)) return;
+        if (!entities.containsKey(entityType) || !entities.get(entityType).contains(entity)) return;
         entities.get(entityType).remove(entity);
     }
 

@@ -41,14 +41,14 @@ public class DecentHologramsHologramProvider implements HologramProvider {
 
     @Override
     public void moveHologram(String id, Location location) {
-        if(!exists(id)) return;
+        if (!exists(id)) return;
         Hologram hologram = DHAPI.getHologram(id);
         hologram.setLocation(location);
     }
 
     @Override
     public void removeHologram(String id) {
-        if(!exists(id)) return;
+        if (!exists(id)) return;
         Hologram hologram = DHAPI.getHologram(id);
         hologram.delete();
         hologramIDs.remove(id);
@@ -56,7 +56,7 @@ public class DecentHologramsHologramProvider implements HologramProvider {
 
     @Override
     public void editLine(String id, int line, String text) {
-        if(!exists(id)) return;
+        if (!exists(id)) return;
         DHAPI.getHologram(id).getPage(0).setLine(line, text);
     }
 
@@ -67,7 +67,7 @@ public class DecentHologramsHologramProvider implements HologramProvider {
 
     @Override
     public boolean exists(String id) {
-        if(!isEnabled()) return false;
+        if (!isEnabled()) return false;
         return hologramIDs.contains(id) && DHAPI.getHologram(id) != null;
     }
 

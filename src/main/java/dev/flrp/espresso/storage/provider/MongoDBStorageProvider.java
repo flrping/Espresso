@@ -1,19 +1,17 @@
 package dev.flrp.espresso.storage.provider;
 
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import dev.flrp.espresso.storage.behavior.DocumentStorageBehavior;
+import dev.flrp.espresso.storage.behavior.StorageBehavior;
+import dev.flrp.espresso.storage.exception.ProviderException;
+import org.bson.Document;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-
-import org.bson.Document;
-
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-
-import dev.flrp.espresso.storage.behavior.DocumentStorageBehavior;
-import dev.flrp.espresso.storage.behavior.StorageBehavior;
-import dev.flrp.espresso.storage.exception.ProviderException;
 
 public class MongoDBStorageProvider implements StorageProvider, DocumentStorageBehavior {
 

@@ -9,19 +9,22 @@ public interface DocumentStorageBehavior extends StorageBehavior {
 
     /**
      * Opens the storage connection with specific options.
+     *
      * @param connectionUri The connection URI or options to open the storage.
      * @throws ProviderException If an error occurs while opening the storage.
      */
     void open(String connectionUri) throws ProviderException;
 
-        /**
+    /**
      * Get the driver class.
+     *
      * @return The driver class.
      */
     String getDriverClass();
 
     /**
      * Get the path prefix.
+     *
      * @return The path prefix.
      */
     String getPathPrefix();
@@ -30,7 +33,7 @@ public interface DocumentStorageBehavior extends StorageBehavior {
      * Inserts a document into the specified collection.
      *
      * @param collection The name of the collection.
-     * @param document The document to insert.
+     * @param document   The document to insert.
      * @throws ProviderException If an error occurs while inserting the document.
      */
     void insertDocument(String collection, Map<String, Object> document) throws ProviderException;
@@ -39,8 +42,8 @@ public interface DocumentStorageBehavior extends StorageBehavior {
      * Updates documents in the specified collection that match the query.
      *
      * @param collection The name of the collection.
-     * @param query The query to match documents.
-     * @param update The update to apply to matched documents.
+     * @param query      The query to match documents.
+     * @param update     The update to apply to matched documents.
      * @throws ProviderException If an error occurs while updating documents.
      */
     void updateDocuments(String collection, Map<String, Object> query, Map<String, Object> update) throws ProviderException;
@@ -49,7 +52,7 @@ public interface DocumentStorageBehavior extends StorageBehavior {
      * Finds documents in the specified collection that match the query.
      *
      * @param collection The name of the collection.
-     * @param query The query to match documents.
+     * @param query      The query to match documents.
      * @return A list of documents that match the query.
      * @throws ProviderException If an error occurs while finding documents.
      */
@@ -59,7 +62,7 @@ public interface DocumentStorageBehavior extends StorageBehavior {
      * Deletes documents in the specified collection that match the query.
      *
      * @param collection The name of the collection.
-     * @param query The query to match documents for deletion.
+     * @param query      The query to match documents for deletion.
      * @throws ProviderException If an error occurs while deleting documents.
      */
     void deleteDocuments(String collection, Map<String, Object> query) throws ProviderException;

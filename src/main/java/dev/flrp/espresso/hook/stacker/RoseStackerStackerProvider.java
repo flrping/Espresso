@@ -38,11 +38,10 @@ public class RoseStackerStackerProvider implements StackerProvider {
 
     @Override
     public int getStackSize(LivingEntity entity) {
-        if(roseStackerAPI == null) return 1;
-        if(!roseStackerAPI.isEntityStacked(entity)) return 1;
+        if (roseStackerAPI == null) return 1;
+        if (!roseStackerAPI.isEntityStacked(entity)) return 1;
         return roseStackerAPI.getStackedEntity(entity).getStackSize();
     }
-
 
 
 }

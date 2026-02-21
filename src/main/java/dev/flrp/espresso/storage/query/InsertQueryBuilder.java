@@ -1,18 +1,18 @@
 package dev.flrp.espresso.storage.query;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import dev.flrp.espresso.storage.behavior.SQLStorageBehavior;
 import dev.flrp.espresso.storage.dialect.SQLStorageDialect;
 import dev.flrp.espresso.storage.exception.ProviderException;
 import dev.flrp.espresso.storage.provider.SQLStorageProvider;
 import dev.flrp.espresso.storage.provider.StorageType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A builder for constructing SQL INSERT queries. This class allows you to
  * specify the table to insert into and the columns with their values.
- *
+ * <p>
  * If a storage provider is not provided, the builder will be configured for
  * string only returns.
  */
@@ -42,7 +42,7 @@ public class InsertQueryBuilder implements QueryBuilder {
     /**
      * Factory method for using an SQLStorageProvider (allows execution).
      *
-     * @param table The table to insert into.
+     * @param table    The table to insert into.
      * @param provider The storage provider to use.
      * @return A new InsertQueryBuilder instance.
      */
@@ -54,7 +54,7 @@ public class InsertQueryBuilder implements QueryBuilder {
      * Factory method for building SQL strings only (no execution).
      *
      * @param table The table to insert into.
-     * @param type The storage type to use.
+     * @param type  The storage type to use.
      * @return A new InsertQueryBuilder instance.
      */
     public static InsertQueryBuilder with(String table, StorageType type) {
@@ -64,7 +64,7 @@ public class InsertQueryBuilder implements QueryBuilder {
     /**
      * Adds a column and its corresponding value to the INSERT query.
      *
-     * @param name The name of the column.
+     * @param name  The name of the column.
      * @param value The value to be inserted into the column.
      * @return The current instance of InsertQueryBuilder for method chaining.
      */
@@ -79,7 +79,7 @@ public class InsertQueryBuilder implements QueryBuilder {
      * Adds a column and its corresponding value to the INSERT query. Casts enum
      * values.
      *
-     * @param name The name of the column.
+     * @param name  The name of the column.
      * @param value The value to be inserted into the column.
      * @return The current instance of InsertQueryBuilder for method chaining.
      */
@@ -93,9 +93,9 @@ public class InsertQueryBuilder implements QueryBuilder {
     /**
      * Executes the INSERT query against the database.
      *
-     * @throws ProviderException If an error occurs during query execution.
+     * @throws ProviderException             If an error occurs during query execution.
      * @throws UnsupportedOperationException If the builder is configured for
-     * string only returns.
+     *                                       string only returns.
      */
     public void execute() throws ProviderException, UnsupportedOperationException {
         if (stringOnly) {

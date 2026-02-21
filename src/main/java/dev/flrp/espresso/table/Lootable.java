@@ -14,6 +14,7 @@ public interface Lootable extends Cloneable {
 
     /**
      * Set the identifier of the loot.
+     *
      * @param identifier The identifier of the loot.
      */
     void setIdentifier(String identifier);
@@ -25,6 +26,7 @@ public interface Lootable extends Cloneable {
 
     /**
      * Set the weight of the loot.
+     *
      * @param weight The weight of the loot.
      */
     void setWeight(double weight);
@@ -36,6 +38,7 @@ public interface Lootable extends Cloneable {
 
     /**
      * Set the minimum amount of the loot.
+     *
      * @param min The minimum amount of the loot.
      */
     void setMin(double min);
@@ -47,6 +50,7 @@ public interface Lootable extends Cloneable {
 
     /**
      * Set the maximum amount of the loot.
+     *
      * @param max The maximum amount of the loot.
      */
     void setMax(double max);

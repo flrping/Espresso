@@ -11,8 +11,8 @@ public enum LootType {
     ENCHANTMENT;
 
     public static LootType getByName(String type) {
-        for(LootType lootType : LootType.values()) {
-            if(lootType.name().equalsIgnoreCase(type)) return lootType;
+        for (LootType lootType : LootType.values()) {
+            if (lootType.name().equalsIgnoreCase(type)) return lootType;
         }
         return NONE;
     }

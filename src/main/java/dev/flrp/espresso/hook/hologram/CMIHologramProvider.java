@@ -49,7 +49,7 @@ public class CMIHologramProvider implements HologramProvider {
 
     @Override
     public void moveHologram(String id, Location location) {
-        if(!exists(id)) return;
+        if (!exists(id)) return;
         CMIHologram hologram = CMI.getInstance().getHologramManager().getHolograms().get(id);
         hologram.moveTo(location);
         hologram.refresh();
@@ -57,7 +57,7 @@ public class CMIHologramProvider implements HologramProvider {
 
     @Override
     public void removeHologram(String id) {
-        if(!exists(id)) return;
+        if (!exists(id)) return;
         CMIHologram hologram = CMI.getInstance().getHologramManager().getHolograms().get(id);
         hologram.remove();
         hologramIDs.remove(id);
@@ -65,10 +65,10 @@ public class CMIHologramProvider implements HologramProvider {
 
     @Override
     public void editLine(String id, int line, String text) {
-        if(!exists(id)) return;
+        if (!exists(id)) return;
         CMIHologram hologram = CMI.getInstance().getHologramManager().getHolograms().get(id);
         List<String> lines = hologram.getLines();
-        if(line < 0 || line >= lines.size()) return;
+        if (line < 0 || line >= lines.size()) return;
         lines.set(line, text);
         hologram.setLines(lines);
         hologram.refresh();
@@ -81,7 +81,7 @@ public class CMIHologramProvider implements HologramProvider {
 
     @Override
     public boolean exists(String id) {
-        if(!isEnabled()) return false;
+        if (!isEnabled()) return false;
         return CMI.getInstance().getHologramManager().getHolograms().containsKey(id);
     }
 

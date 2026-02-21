@@ -1,13 +1,13 @@
 package dev.flrp.espresso.storage.provider;
 
-import java.io.File;
-import java.util.Map;
-import java.util.logging.Logger;
-
 import dev.flrp.espresso.configuration.Configuration;
 import dev.flrp.espresso.storage.behavior.KeyValueStorageBehavior;
 import dev.flrp.espresso.storage.behavior.StorageBehavior;
 import dev.flrp.espresso.storage.exception.ProviderException;
+
+import java.io.File;
+import java.util.Map;
+import java.util.logging.Logger;
 
 public class YAMLStorageProvider implements StorageProvider, KeyValueStorageBehavior {
 
@@ -86,7 +86,7 @@ public class YAMLStorageProvider implements StorageProvider, KeyValueStorageBeha
 
     @Override
     public void setAll(Map<String, Object> values) {
-        for (Map.Entry<String, Object> entry : values.entrySet()) { 
+        for (Map.Entry<String, Object> entry : values.entrySet()) {
             config.getConfiguration().set(entry.getKey(), entry.getValue());
         }
     }
@@ -105,5 +105,5 @@ public class YAMLStorageProvider implements StorageProvider, KeyValueStorageBeha
     public void save() {
         config.save();
     }
-    
+
 }

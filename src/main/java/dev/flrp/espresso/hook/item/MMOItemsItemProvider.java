@@ -5,7 +5,7 @@ import net.Indyuce.mmoitems.api.item.mmoitem.MMOItem;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 public class MMOItemsItemProvider implements ItemProvider {
 
@@ -19,21 +19,22 @@ public class MMOItemsItemProvider implements ItemProvider {
         return ItemType.MMO_ITEMS;
     }
 
-    @Override @Nullable
+    @Override
+    @Nullable
     public String getCustomItemName(ItemStack item) {
-        if(!isCustomItem(item)) return null;
+        if (!isCustomItem(item)) return null;
         return MMOItems.getTypeName(item);
     }
 
     @Override
     public boolean isCustomItem(ItemStack item) {
-        if(!isEnabled()) return false;
+        if (!isEnabled()) return false;
         return MMOItems.getType(item) != null;
     }
 
     @Override
     public void giveItem(Player player, String itemDetails) {
-        if(!isEnabled()) return;
+        if (!isEnabled()) return;
         // itemDetails will be in the form of type:name
         String[] details = itemDetails.split(":");
         String itemType = details[0];
@@ -45,7 +46,7 @@ public class MMOItemsItemProvider implements ItemProvider {
 
     @Override
     public void giveItem(Player player, String itemDetails, int amount) {
-        if(!isEnabled()) return;
+        if (!isEnabled()) return;
         // itemDetails will be in the form of type:name
         String[] details = itemDetails.split(":");
         String itemType = details[0];
@@ -58,7 +59,7 @@ public class MMOItemsItemProvider implements ItemProvider {
 
     @Override
     public ItemStack getItemStack(String itemName) {
-        if(!isEnabled()) return null;
+        if (!isEnabled()) return null;
         // itemDetails will be in the form of type:name
         String[] details = itemName.split(":");
         String itemType = details[0];

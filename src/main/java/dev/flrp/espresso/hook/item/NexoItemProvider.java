@@ -18,26 +18,26 @@ public class NexoItemProvider implements ItemProvider {
 
     @Override
     public String getCustomItemName(ItemStack item) {
-        if(!isCustomItem(item)) return null;
+        if (!isCustomItem(item)) return null;
         return NexoItems.idFromItem(item);
     }
 
     @Override
     public boolean isCustomItem(ItemStack item) {
-        if(!isEnabled()) return false;
+        if (!isEnabled()) return false;
         return NexoItems.exists(item);
     }
 
     @Override
     public void giveItem(Player player, String itemName) {
-        if(!isEnabled()) return;
+        if (!isEnabled()) return;
         ItemStack item = NexoItems.itemFromId(itemName).build();
         player.getInventory().addItem(item);
     }
 
     @Override
     public void giveItem(Player player, String itemName, int amount) {
-        if(!isEnabled()) return;
+        if (!isEnabled()) return;
         ItemStack item = NexoItems.itemFromId(itemName).build();
         item.setAmount(amount);
         player.getInventory().addItem(item);
@@ -45,7 +45,7 @@ public class NexoItemProvider implements ItemProvider {
 
     @Override
     public ItemStack getItemStack(String itemName) {
-        if(!isEnabled()) return null;
+        if (!isEnabled()) return null;
         return NexoItems.itemFromId(itemName).build();
     }
 

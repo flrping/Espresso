@@ -8,12 +8,12 @@ import java.util.List;
 
 public interface EntityProvider extends Hook {
 
-     // Not all plugins are exactly custom entities, some modify or level them with
-     // no addition of a new identifier, so only custom entity
-     // implementing plugins will get this provider interface. Specifically, plugins
-     // that use their own managers to handle custom entity names, identifiers, and such.
-     // This allows plugins to do unique things with entities that have custom identifiers.
-     // They have a higher likely-hood of having custom models and more.
+    // Not all plugins are exactly custom entities, some modify or level them with
+    // no addition of a new identifier, so only custom entity
+    // implementing plugins will get this provider interface. Specifically, plugins
+    // that use their own managers to handle custom entity names, identifiers, and such.
+    // This allows plugins to do unique things with entities that have custom identifiers.
+    // They have a higher likely-hood of having custom models and more.
 
     EntityType getType();
 

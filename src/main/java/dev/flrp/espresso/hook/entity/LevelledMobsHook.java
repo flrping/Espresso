@@ -19,13 +19,13 @@ public class LevelledMobsHook implements Levelled {
 
     @Override
     public boolean hasLevel(LivingEntity entity) {
-        if(levelledMobs == null) return false;
+        if (levelledMobs == null) return false;
         return levelledMobs.getLevelManager().isLevelled(entity);
     }
 
     @Override
     public double getLevel(LivingEntity entity) {
-        if(!hasLevel(entity)) return 1;
+        if (!hasLevel(entity)) return 1;
         return levelledMobs.getLevelManager().getLevelOfMob(entity);
     }
 

@@ -1,20 +1,20 @@
 package dev.flrp.espresso.storage.query;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import dev.flrp.espresso.storage.behavior.SQLStorageBehavior;
 import dev.flrp.espresso.storage.dialect.SQLStorageDialect;
 import dev.flrp.espresso.storage.exception.ProviderException;
 import dev.flrp.espresso.storage.provider.SQLStorageProvider;
 import dev.flrp.espresso.storage.provider.StorageType;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * A builder for constructing SQL UPSERT queries. This class allows you to
  * specify the table to insert into or update the columns with their values, and
  * the conflict columns for handling duplicates.
- *
+ * <p>
  * If a storage provider is not provided, the builder will be configured for
  * string only returns.
  */
@@ -40,7 +40,7 @@ public class UpsertQueryBuilder implements QueryBuilder {
     /**
      * Factory method for using an SQLStorageProvider.
      *
-     * @param table The table to upsert into.
+     * @param table    The table to upsert into.
      * @param provider The storage provider to use.
      * @return A new UpsertQueryBuilder instance.
      */
@@ -52,7 +52,7 @@ public class UpsertQueryBuilder implements QueryBuilder {
      * Factory method for building SQL strings only.
      *
      * @param table The table to upsert into.
-     * @param type The storage type to use.
+     * @param type  The storage type to use.
      * @return A new UpsertQueryBuilder instance.
      */
     public static UpsertQueryBuilder with(String table, StorageType type) {
@@ -62,7 +62,7 @@ public class UpsertQueryBuilder implements QueryBuilder {
     /**
      * Adds a column and its corresponding value to the UPSERT query.
      *
-     * @param name The name of the column.
+     * @param name  The name of the column.
      * @param value The value to be inserted or updated in the column.
      * @return The current instance of UpsertQueryBuilder for method chaining.
      */
@@ -77,8 +77,8 @@ public class UpsertQueryBuilder implements QueryBuilder {
      * Adds a column and its corresponding value to the UPSERT query. Casts enum
      * values.
      *
-     * @param name The name of the column.
-     * @param value The value to be inserted or updated in the column.
+     * @param name     The name of the column.
+     * @param value    The value to be inserted or updated in the column.
      * @param enumName The name of the enum type.
      */
     public UpsertQueryBuilder column(String name, Object value, String enumName) {
@@ -104,9 +104,9 @@ public class UpsertQueryBuilder implements QueryBuilder {
     /**
      * Executes the UPSERT query against the database.
      *
-     * @throws ProviderException If an error occurs during query execution.
+     * @throws ProviderException             If an error occurs during query execution.
      * @throws UnsupportedOperationException If the builder is configured for
-     * string only returns.
+     *                                       string only returns.
      */
     public void execute() throws ProviderException, UnsupportedOperationException {
         if (stringOnly) {

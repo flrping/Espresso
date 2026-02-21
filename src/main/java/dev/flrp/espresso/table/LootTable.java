@@ -33,6 +33,7 @@ public class LootTable implements Conditionable, Cloneable {
 
     /**
      * Set the name of the loot group.
+     *
      * @param identifier The name to set.
      */
     public void setIdentifier(String identifier) {
@@ -48,6 +49,7 @@ public class LootTable implements Conditionable, Cloneable {
 
     /**
      * Set the weight of the loot group.
+     *
      * @param weight The weight to set.
      */
     public void setWeight(double weight) {
@@ -63,6 +65,7 @@ public class LootTable implements Conditionable, Cloneable {
 
     /**
      * Add a loot to the group.
+     *
      * @param loot The loot to add.
      */
     public void addLoot(Lootable loot) {
@@ -72,6 +75,7 @@ public class LootTable implements Conditionable, Cloneable {
 
     /**
      * Get a loot from the group.
+     *
      * @param identifier The identifier of the loot.
      * @return The loot.
      */
@@ -81,6 +85,7 @@ public class LootTable implements Conditionable, Cloneable {
 
     /**
      * Remove a loot from the group.
+     *
      * @param identifier The identifier of the loot.
      */
     public void removeLoot(String identifier) {
@@ -90,6 +95,7 @@ public class LootTable implements Conditionable, Cloneable {
 
     /**
      * Remove a loot from the group.
+     *
      * @param loot The loot to remove.
      */
     public void removeLoot(Lootable loot) {
@@ -99,6 +105,7 @@ public class LootTable implements Conditionable, Cloneable {
 
     /**
      * Check if the group contains a loot.
+     *
      * @param identifier The identifier of the loot.
      * @return If the group contains the loot.
      */
@@ -108,6 +115,7 @@ public class LootTable implements Conditionable, Cloneable {
 
     /**
      * Check if the group contains a loot.
+     *
      * @param loot The loot to check.
      * @return If the group contains the loot.
      */
@@ -127,14 +135,14 @@ public class LootTable implements Conditionable, Cloneable {
      */
     public Lootable roll() {
         double roll;
-        if(entryTotalWeight < 100) {
+        if (entryTotalWeight < 100) {
             roll = Math.random() * 100;
         } else {
             roll = Math.random() * entryTotalWeight;
         }
 
-        for(Lootable loot : loots.values()) {
-            if(roll <= loot.getWeight()) {
+        for (Lootable loot : loots.values()) {
+            if (roll <= loot.getWeight()) {
                 return loot;
             } else {
                 roll -= loot.getWeight();

@@ -35,8 +35,8 @@ public class UltimateStackerStackerProvider implements StackerProvider {
 
     @Override
     public int getStackSize(LivingEntity entity) {
-        if(!this.isEnabled()) return 1;
-        if(!UltimateStackerApi.getEntityStackManager().isStackedEntity(entity)) return 1;
+        if (!this.isEnabled()) return 1;
+        if (!UltimateStackerApi.getEntityStackManager().isStackedEntity(entity)) return 1;
         return UltimateStackerApi.getEntityStackManager().getStackedEntity(entity).getAmount();
     }
 

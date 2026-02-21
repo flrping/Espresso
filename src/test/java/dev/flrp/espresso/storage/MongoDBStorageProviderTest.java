@@ -1,25 +1,21 @@
 package dev.flrp.espresso.storage;
 
+import dev.flrp.espresso.storage.exception.ProviderException;
+import dev.flrp.espresso.storage.provider.MongoDBStorageProvider;
+import dev.flrp.espresso.storage.provider.StorageType;
+import org.junit.jupiter.api.*;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.junit.jupiter.api.AfterAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.testcontainers.containers.MongoDBContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-
-import dev.flrp.espresso.storage.exception.ProviderException;
-import dev.flrp.espresso.storage.provider.MongoDBStorageProvider;
-import dev.flrp.espresso.storage.provider.StorageType;
 
 @Testcontainers
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)

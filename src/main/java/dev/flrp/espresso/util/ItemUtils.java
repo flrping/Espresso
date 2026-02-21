@@ -12,12 +12,12 @@ public class ItemUtils {
         ItemStack itemStack = new ItemStack(material);
         itemStack.setAmount(1);
         ItemMeta itemMeta = itemStack.getItemMeta();
-        if(itemMeta != null) {
-            if(section.contains("name")) itemMeta.setDisplayName(StringUtils.parseColor(section.getString("name")));
-            if(section.contains("lore")) itemMeta.setLore(StringUtils.parseColor(section.getStringList("lore")));
-            if(section.contains("model-data")) itemMeta.setCustomModelData(section.getInt("model-data"));
-            if(section.contains("enchantments")) {
-                for(String enchantment : section.getStringList("enchantments")) {
+        if (itemMeta != null) {
+            if (section.contains("name")) itemMeta.setDisplayName(StringUtils.parseColor(section.getString("name")));
+            if (section.contains("lore")) itemMeta.setLore(StringUtils.parseColor(section.getStringList("lore")));
+            if (section.contains("model-data")) itemMeta.setCustomModelData(section.getInt("model-data"));
+            if (section.contains("enchantments")) {
+                for (String enchantment : section.getStringList("enchantments")) {
                     String[] enchantmentSplit = enchantment.split(":");
                     itemMeta.addEnchant(EnchantUtils.getEnchantByVersion(enchantmentSplit[0]), Integer.parseInt(enchantmentSplit[1]), true);
                 }

@@ -16,7 +16,7 @@ public class LevelCondition implements Condition {
     }
 
     public boolean check(int level) {
-        return level >= min&& level <= max;
+        return level >= min && level <= max;
     }
 
     public int getMin() {

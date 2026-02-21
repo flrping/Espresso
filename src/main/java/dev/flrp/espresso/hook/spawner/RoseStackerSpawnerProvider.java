@@ -4,7 +4,7 @@ import dev.rosewood.rosestacker.api.RoseStackerAPI;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 public class RoseStackerSpawnerProvider implements SpawnerProvider {
 
@@ -26,19 +26,20 @@ public class RoseStackerSpawnerProvider implements SpawnerProvider {
 
     @Override
     public boolean isSpawner(Block block) {
-        if(roseStackerAPI == null) return false;
+        if (roseStackerAPI == null) return false;
         return roseStackerAPI.isSpawnerStacked(block);
     }
 
-    @Override @Nullable
+    @Override
+    @Nullable
     public EntityType getSpawnerEntityType(Block block) {
-        if(!isSpawner(block)) return null;
+        if (!isSpawner(block)) return null;
         return roseStackerAPI.getStackedSpawner(block).getSpawner().getSpawnedType();
     }
 
     @Override
     public int getSpawnerStackSize(Block block) {
-        if(!isSpawner(block)) return 0;
+        if (!isSpawner(block)) return 0;
         return roseStackerAPI.getStackedSpawner(block).getStackSize();
     }
 

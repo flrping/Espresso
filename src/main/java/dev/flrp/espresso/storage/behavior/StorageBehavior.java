@@ -16,8 +16,9 @@ public interface StorageBehavior {
 
     /**
      * Checks if the storage is connected.
+     *
      * @return True if the storage is connected, false otherwise.
      */
     boolean isConnected();
-    
+
 }

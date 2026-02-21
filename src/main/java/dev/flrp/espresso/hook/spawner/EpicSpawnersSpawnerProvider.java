@@ -4,7 +4,7 @@ import com.songoda.epicspawners.api.EpicSpawnersApi;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 public class EpicSpawnersSpawnerProvider implements SpawnerProvider {
 
@@ -20,19 +20,20 @@ public class EpicSpawnersSpawnerProvider implements SpawnerProvider {
 
     @Override
     public boolean isSpawner(Block block) {
-        if(!isEnabled()) return false;
+        if (!isEnabled()) return false;
         return EpicSpawnersApi.getSpawnerManager().isSpawner(block.getLocation());
     }
 
-    @Override @Nullable
+    @Override
+    @Nullable
     public EntityType getSpawnerEntityType(Block block) {
-        if(!isSpawner(block)) return null;
+        if (!isSpawner(block)) return null;
         return EpicSpawnersApi.getSpawnerManager().getSpawner(block.getLocation()).getCreatureSpawner().getSpawnedType();
     }
 
     @Override
     public int getSpawnerStackSize(Block block) {
-        if(!isSpawner(block)) return 0;
+        if (!isSpawner(block)) return 0;
         return EpicSpawnersApi.getSpawnerManager().getSpawner(block.getLocation()).getStackSize();
     }
 

@@ -2,7 +2,7 @@ name: Espresso
 version: '${project.version}'
 main: dev.flrp.espresso.Espresso
 api-version: '1.13'
-authors: [flrp]
-softdepend: [Vault, PlayerPoints, TokenManager, UltimateStacker, WildStacker,
-             RoseStacker, StackMob, MythicMobs, MMOItems, Oraxen, ItemsAdder,
-             InfernalMobs, LevelledMobs, UpgradeableSpawners, HolographicDisplays, DecentHolograms]
+authors: [ flrp ]
+softdepend: [ Vault, PlayerPoints, TokenManager, UltimateStacker, WildStacker,
+              RoseStacker, StackMob, MythicMobs, MMOItems, Oraxen, ItemsAdder,
+              InfernalMobs, LevelledMobs, UpgradeableSpawners, HolographicDisplays, DecentHolograms ]

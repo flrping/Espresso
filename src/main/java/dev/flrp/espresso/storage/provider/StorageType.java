@@ -1,14 +1,9 @@
 package dev.flrp.espresso.storage.provider;
 
+import dev.flrp.espresso.storage.dialect.*;
+
+import jakarta.annotation.Nullable;
 import java.util.function.Supplier;
-
-import javax.annotation.Nullable;
-
-import dev.flrp.espresso.storage.dialect.MariaDBStorageDialect;
-import dev.flrp.espresso.storage.dialect.MySQLStorageDialect;
-import dev.flrp.espresso.storage.dialect.PostgreSQLStorageDialect;
-import dev.flrp.espresso.storage.dialect.SQLiteStorageDialect;
-import dev.flrp.espresso.storage.dialect.StorageDialect;
 
 public enum StorageType {
 

@@ -36,8 +36,8 @@ public class WildStackerStackerProvider implements StackerProvider {
 
     @Override
     public int getStackSize(LivingEntity entity) {
-        if(!this.isEnabled()) return 1;
-        if(WildStackerAPI.getStackedEntity(entity) == null) return 1;
+        if (!this.isEnabled()) return 1;
+        if (WildStackerAPI.getStackedEntity(entity) == null) return 1;
         return WildStackerAPI.getEntityAmount(entity);
     }
 

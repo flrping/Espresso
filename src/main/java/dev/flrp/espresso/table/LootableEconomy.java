@@ -89,6 +89,7 @@ public class LootableEconomy implements Lootable {
 
     /**
      * Set the economy provider.
+     *
      * @param economyType The economy type.
      */
     public void setEconomyType(EconomyType economyType) {
