@@ -2,3 +2,6 @@ Espresso.iml
 target/
 .idea/
 .vscode/
+.settings/
+.classpath
+.project
