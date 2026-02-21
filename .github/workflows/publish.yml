@@ -83,5 +83,4 @@ jobs:
                   EOF
 
             - name: Publish to Sonatype Nexus
-              if: steps.create_tag.outputs.tag_created == 'true'
               run: mvn -B deploy --file pom.xml -s "$RUNNER_TEMP/settings.xml"
