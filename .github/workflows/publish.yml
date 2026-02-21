@@ -11,7 +11,7 @@ jobs:
         permissions:
             contents: write
         env:
-            NEXUS_USERNAME: github
+            NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
             NEXUS_PASSWORD: ${{ secrets.NEXUS_TOKEN }}
 
         steps:
@@ -42,12 +42,14 @@ jobs:
                   fi
 
             - name: Create tag
+              id: create_tag
               if: steps.check_tag.outputs.exists == 'false'
               run: |
                   git config user.name "github-actions[bot]"
                   git config user.email "github-actions[bot]@users.noreply.github.com"
                   git tag -a "v${{ steps.get_version.outputs.version }}" -m "Release v${{ steps.get_version.outputs.version }}"
                   git push origin "v${{ steps.get_version.outputs.version }}"
+                  echo "tag_created=true" >> $GITHUB_OUTPUT
 
             - name: Create release
               if: steps.check_tag.outputs.exists == 'false'
@@ -80,8 +82,6 @@ jobs:
                   </settings>
                   EOF
 
-            - name: Build with Maven
-              run: mvn -B package --file pom.xml
-
             - name: Publish to Sonatype Nexus
+              if: steps.create_tag.outputs.tag_created == 'true'
               run: mvn -B deploy --file pom.xml -s "$RUNNER_TEMP/settings.xml"
