@@ -25,6 +25,11 @@ jobs:
                   java-version: "21"
                   distribution: "temurin"
 
+            - name: Ensure Docker is running
+              run: |
+                  sudo systemctl start docker
+                  docker info
+
             - name: Get version from pom.xml
               id: get_version
               run: |
